@@ -23,12 +23,14 @@ class EasyImageViewPager extends StatefulWidget {
 class _EasyImageViewPagerState extends State<EasyImageViewPager> {
 
   final PageController pageController;
+  bool _pagingEnabled = true;
 
   _EasyImageViewPagerState({ required this.pageController }) : super();
 
   @override
   Widget build(BuildContext context) {
     return PageView.builder(
+      physics: _pagingEnabled ? const PageScrollPhysics() : const NeverScrollableScrollPhysics(),
       key: const Key('easy_image_view_page_view'),
       itemCount: widget.easyImageProvider.imageCount,
       controller: pageController,
@@ -36,7 +38,12 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
         final image = widget.easyImageProvider.imageBuilder(context, index);
         return EasyImageView(
           key: Key('easy_image_view_$index'),
-          imageProvider: image
+          imageProvider: image,
+          onScaleChanged: (scale) {
+            setState(() {
+              _pagingEnabled = scale <= 1.0;
+            });
+          },
         );
       }, 
     );
