@@ -2,6 +2,8 @@
 
 An easy way to display images in a full-screen dialog, including pinch & zoom.
 
+![Tests](https://github.com/thesmythgroup/easy_image_viewer/actions/workflows/dart.yml/badge.svg)
+
 ## Features
 
 * Show a single image or a swipeable list of images
