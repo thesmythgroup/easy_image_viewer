@@ -8,26 +8,34 @@ import 'support/test_helper.dart';
 import 'package:easy_image_viewer/easy_image_view_pager.dart';
 
 void main() {
-
   group('EasyImageViewerPager', () {
-    testWidgets('should have a PageView of images', (WidgetTester tester) async {
+    testWidgets('should have a PageView of images',
+        (WidgetTester tester) async {
       List<ImageProvider> imageProviders = List.empty(growable: true);
-      
+
       await tester.runAsync(() async {
-        const colors = [Colors.amber, Colors.red, Colors.green, Colors.blue, Colors.teal];
-        imageProviders = await Future.wait(colors.map((color) => createColorImage(color)));
+        const colors = [
+          Colors.amber,
+          Colors.red,
+          Colors.green,
+          Colors.blue,
+          Colors.teal
+        ];
+        imageProviders =
+            await Future.wait(colors.map((color) => createColorImage(color)));
       });
 
       final multiImageProvider = MultiImageProvider(imageProviders);
-      final pageController = PageController(initialPage: multiImageProvider.initialIndex);
+      final pageController =
+          PageController(initialPage: multiImageProvider.initialIndex);
 
       Widget testWidget = MediaQuery(
-        data: const MediaQueryData(size: Size(600, 800)),
-        child: Directionality(
-            textDirection: TextDirection.ltr,
-            child: EasyImageViewPager(easyImageProvider: multiImageProvider, pageController: pageController)
-        )
-      );
+          data: const MediaQueryData(size: Size(600, 800)),
+          child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: EasyImageViewPager(
+                  easyImageProvider: multiImageProvider,
+                  pageController: pageController)));
 
       await tester.pumpWidget(testWidget);
 

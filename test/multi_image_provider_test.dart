@@ -5,23 +5,27 @@ import 'package:flutter_test/flutter_test.dart';
 import 'support/test_helper.dart';
 
 void main() {
-
   group('MultiImageProvider', () {
-    test('should require a valid initialIndex', () async {      
-      final imageProviders = [await createColorImage(Colors.red), await createColorImage(Colors.green)];
+    test('should require a valid initialIndex', () async {
+      final imageProviders = [
+        await createColorImage(Colors.red),
+        await createColorImage(Colors.green)
+      ];
 
-      expect(() => MultiImageProvider(imageProviders, initialIndex: -1), throwsArgumentError);
-      expect(() => MultiImageProvider(imageProviders, initialIndex: 2), throwsArgumentError);
+      expect(() => MultiImageProvider(imageProviders, initialIndex: -1),
+          throwsArgumentError);
+      expect(() => MultiImageProvider(imageProviders, initialIndex: 2),
+          throwsArgumentError);
 
       final provider0 = MultiImageProvider(imageProviders, initialIndex: 0);
       final provider1 = MultiImageProvider(imageProviders, initialIndex: 1);
-      
+
       expect(provider0.initialIndex, 0);
       expect(provider1.initialIndex, 1);
     });
 
-    testWidgets('should return the correct image per index', (WidgetTester tester) async {
-
+    testWidgets('should return the correct image per index',
+        (WidgetTester tester) async {
       ImageProvider? redImageProvider;
       ImageProvider? greenImageProvider;
       BuildContext context = await createTestBuildContext(tester);
@@ -30,7 +34,7 @@ void main() {
         redImageProvider = await createColorImage(Colors.red);
         greenImageProvider = await createColorImage(Colors.green);
       });
-      
+
       final imageProviders = [redImageProvider!, greenImageProvider!];
       final provider = MultiImageProvider(imageProviders, initialIndex: 0);
 

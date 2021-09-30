@@ -5,18 +5,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'support/test_helper.dart';
 
 void main() {
-
   group('SingleImageProvider', () {
-
-    testWidgets('should return the correct image per index', (WidgetTester tester) async {
-
+    testWidgets('should return the correct image per index',
+        (WidgetTester tester) async {
       ImageProvider? redImageProvider;
       BuildContext context = await createTestBuildContext(tester);
 
       await tester.runAsync(() async {
         redImageProvider = await createColorImage(Colors.red);
       });
-      
+
       final provider = SingleImageProvider(redImageProvider!);
 
       expect(provider.imageCount, 1);
