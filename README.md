@@ -2,11 +2,12 @@
 
 An easy way to display images in a full-screen dialog, including pinch & zoom.
 
+[![Pub](https://img.shields.io/pub/v/easy_image_viewer.svg)](https://pub.dartlang.org/packages/easy_image_viewer)
 ![Tests](https://github.com/thesmythgroup/easy_image_viewer/actions/workflows/dart.yml/badge.svg)
 
-## Features
-
 ![Easy Image Viewer Demo](https://github.com/thesmythgroup/easy_image_viewer/blob/main/demo_images/demo1.gif?raw=true "Easy Image Viewer Demo")
+
+## Features
 
 * Show a single image or a swipeable list of images
 * Use pinch & zoom to zoom in and out of images
