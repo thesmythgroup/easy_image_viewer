@@ -6,8 +6,11 @@ An easy way to display images in a full-screen dialog, including pinch & zoom.
 
 ## Features
 
+![Easy Image Viewer Demo](demo_images/demo1.gif?raw=true "Easy Image Viewer Demo")
+
 * Show a single image or a swipeable list of images
 * Use pinch & zoom to zoom in and out of images
+* No dependencies besides Flutter
 * Callbacks for `onPageChanged` and `onViewerDismissed`
 
 ## Usage
