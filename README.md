@@ -2,7 +2,7 @@
 
 An easy way to display images in a full-screen dialog, including pinch & zoom.
 
-![Tests](https://github.com/thesmythgroup/easy_image_viewer/actions/workflows/dart.yml/badge.svg)
+[![Tests](https://github.com/thesmythgroup/easy_image_viewer/actions/workflows/dart.yml/badge.svg)](https://github.com/thesmythgroup/easy_image_viewer/actions/workflows/dart.yml)
 
 ## Features
 
