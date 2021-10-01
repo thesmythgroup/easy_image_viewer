@@ -5,10 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'support/test_helper.dart';
 
 void main() {
-
   group('showImageViewer', () {
-    testWidgets('should have a PageView of images and invoke dismissal callback', (WidgetTester tester) async {
-
+    testWidgets(
+        'should have a PageView of images and invoke dismissal callback',
+        (WidgetTester tester) async {
       ImageProvider? redImageProvider;
       BuildContext context = await createTestBuildContext(tester);
       bool dismissed = false;
@@ -16,8 +16,9 @@ void main() {
       await tester.runAsync(() async {
         redImageProvider = await createColorImage(Colors.red);
       });
-      
-      final dialogFuture = showImageViewer(context, redImageProvider!, onViewerDismissed: () {
+
+      final dialogFuture =
+          showImageViewer(context, redImageProvider!, onViewerDismissed: () {
         dismissed = true;
       });
       await tester.pumpAndSettle();
@@ -40,22 +41,30 @@ void main() {
   });
 
   group('showImageViewerPager', () {
-    testWidgets('should have a PageView of images and invoke callbacks', (WidgetTester tester) async {
-
+    testWidgets('should have a PageView of images and invoke callbacks',
+        (WidgetTester tester) async {
       List<ImageProvider> imageProviders = List.empty(growable: true);
       final context = await createTestBuildContext(tester);
       bool dismissed = false;
       int currentPage = -1;
       int pageOnDismissal = -1;
-      
+
       await tester.runAsync(() async {
-        const colors = [Colors.amber, Colors.red, Colors.green, Colors.blue, Colors.teal];
-        imageProviders = await Future.wait(colors.map((color) => createColorImage(color)));
+        const colors = [
+          Colors.amber,
+          Colors.red,
+          Colors.green,
+          Colors.blue,
+          Colors.teal
+        ];
+        imageProviders =
+            await Future.wait(colors.map((color) => createColorImage(color)));
       });
 
       final multiImageProvider = MultiImageProvider(imageProviders);
-            
-      final dialogFuture = showImageViewerPager(context, multiImageProvider, onPageChanged: (page) {
+
+      final dialogFuture = showImageViewerPager(context, multiImageProvider,
+          onPageChanged: (page) {
         currentPage = page;
       }, onViewerDismissed: (page) {
         dismissed = true;
@@ -91,20 +100,28 @@ void main() {
     });
 
     testWidgets('should respect the initialIndex', (WidgetTester tester) async {
-
       List<ImageProvider> imageProviders = List.empty(growable: true);
       final context = await createTestBuildContext(tester);
       bool dismissed = false;
       int pageOnDismissal = -1;
-      
+
       await tester.runAsync(() async {
-        const colors = [Colors.amber, Colors.red, Colors.green, Colors.blue, Colors.teal];
-        imageProviders = await Future.wait(colors.map((color) => createColorImage(color)));
+        const colors = [
+          Colors.amber,
+          Colors.red,
+          Colors.green,
+          Colors.blue,
+          Colors.teal
+        ];
+        imageProviders =
+            await Future.wait(colors.map((color) => createColorImage(color)));
       });
 
-      final multiImageProvider = MultiImageProvider(imageProviders, initialIndex: 2);
-            
-      final dialogFuture = showImageViewerPager(context, multiImageProvider, onViewerDismissed: (page) {
+      final multiImageProvider =
+          MultiImageProvider(imageProviders, initialIndex: 2);
+
+      final dialogFuture = showImageViewerPager(context, multiImageProvider,
+          onViewerDismissed: (page) {
         dismissed = true;
         pageOnDismissal = page;
       });
@@ -123,4 +140,3 @@ void main() {
     });
   });
 }
-

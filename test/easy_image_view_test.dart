@@ -1,30 +1,31 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:easy_image_viewer/src/easy_image_view.dart';
 
 import 'support/test_helper.dart';
 
-import 'package:easy_image_viewer/easy_image_view.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
-
   group('EasyImageView', () {
-    testWidgets('should have an image and a scale', (WidgetTester tester) async {
+    testWidgets('should have an image and a scale',
+        (WidgetTester tester) async {
       ImageProvider? imageProvider;
-      
+
       await tester.runAsync(() async {
         imageProvider = await createColorImage(Colors.green);
       });
-      
+
       Widget testWidget = MediaQuery(
-        data: const MediaQueryData(size: Size(600, 800)),
-        child: EasyImageView(imageProvider: imageProvider!, minScale: 0.5, maxScale: 6.0)
-      );
+          data: const MediaQueryData(size: Size(600, 800)),
+          child: EasyImageView(
+              imageProvider: imageProvider!, minScale: 0.5, maxScale: 6.0));
 
       await tester.pumpWidget(testWidget);
 
       // Create the Finders.
       final sizedBoxFinder = find.byKey(const Key('easy_image_sized_box'));
-      final interactiveViewFinder = find.byKey(const Key('easy_image_interactive_viewer'));
+      final interactiveViewFinder =
+          find.byKey(const Key('easy_image_interactive_viewer'));
       final imageFinder = find.image(imageProvider!);
 
       // Check existence
@@ -36,39 +37,40 @@ void main() {
       SizedBox sizedBox = tester.firstWidget(sizedBoxFinder);
       expect(sizedBox.width, 600);
       expect(sizedBox.height, 800);
-      InteractiveViewer interactiveViewer = tester.firstWidget(interactiveViewFinder);
+      InteractiveViewer interactiveViewer =
+          tester.firstWidget(interactiveViewFinder);
       expect(interactiveViewer.minScale, 0.5);
       expect(interactiveViewer.maxScale, 6.0);
     });
 
-    testWidgets('should invoke the onScaleChanged callback', (WidgetTester tester) async {
+    testWidgets('should invoke the onScaleChanged callback',
+        (WidgetTester tester) async {
       ImageProvider? imageProvider;
 
       double lastScale = 1.0;
-      
+
       await tester.runAsync(() async {
         imageProvider = await createColorImage(Colors.green);
       });
-      
+
       Widget testWidget = MediaQuery(
-        data: const MediaQueryData(size: Size(600, 800)),
-        child: EasyImageView(
-          imageProvider: imageProvider!,
-          minScale: 0.5,
-          maxScale: 6.0,
-          onScaleChanged: (scale) {
-            lastScale = scale;
-          })
-      );
+          data: const MediaQueryData(size: Size(600, 800)),
+          child: EasyImageView(
+              imageProvider: imageProvider!,
+              minScale: 0.5,
+              maxScale: 6.0,
+              onScaleChanged: (scale) {
+                lastScale = scale;
+              }));
 
       await tester.pumpWidget(testWidget);
 
       // Create the finder
       final interactiveViewFinder = find.byType(InteractiveViewer);
 
-      // Get the center      
+      // Get the center
       final center = tester.getCenter(interactiveViewFinder);
-    
+
       // Zoom in:
       final Offset scaleStart1 = center;
       final Offset scaleStart2 = Offset(center.dx + 10.0, center.dy);
