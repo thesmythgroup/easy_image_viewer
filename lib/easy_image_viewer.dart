@@ -1,14 +1,20 @@
+/// A library to easily display images in a full-screen dialog.
+/// It supports pinch & zoom, and paging through multiple images.
 library easy_image_viewer;
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'easy_image_provider.dart';
-import 'easy_image_view_pager.dart';
-import 'single_image_provider.dart';
+import 'src/easy_image_provider.dart';
+import 'src/easy_image_view_pager.dart';
+import 'src/single_image_provider.dart';
 
-export 'easy_image_provider.dart' show EasyImageProvider;
-export 'multi_image_provider.dart' show MultiImageProvider;
+export 'src/easy_image_provider.dart' show EasyImageProvider;
+export 'src/single_image_provider.dart' show SingleImageProvider;
+export 'src/multi_image_provider.dart' show MultiImageProvider;
+
+export 'src/easy_image_view.dart' show EasyImageView;
+export 'src/easy_image_view_pager.dart' show EasyImageViewPager;
 
 /// Shows the given [imageProvider] in a full-screen [Dialog].
 /// Setting [immersive] to false will prevent the top and bottom bars from being hidden.

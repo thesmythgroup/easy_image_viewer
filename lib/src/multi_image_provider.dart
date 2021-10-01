@@ -1,5 +1,3 @@
-library easy_image_viewer;
-
 import 'package:flutter/material.dart';
 
 import 'easy_image_provider.dart';

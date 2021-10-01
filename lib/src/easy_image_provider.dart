@@ -1,5 +1,3 @@
-library easy_image_viewer;
-
 import 'package:flutter/material.dart';
 
 /// Provider for images, their count and the initial index to display

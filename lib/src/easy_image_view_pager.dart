@@ -1,5 +1,3 @@
-library easy_image_viewer;
-
 import 'package:flutter/material.dart';
 
 import 'easy_image_provider.dart';
@@ -17,8 +15,8 @@ class EasyImageViewPager extends StatefulWidget {
       : super(key: key);
 
   @override
-  // ignore: no_logic_in_create_state
   _EasyImageViewPagerState createState() =>
+      // ignore: no_logic_in_create_state
       _EasyImageViewPagerState(pageController: pageController);
 }
 

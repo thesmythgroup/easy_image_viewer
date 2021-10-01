@@ -1,5 +1,3 @@
-library easy_image_viewer;
-
 import 'package:flutter/material.dart';
 
 /// A full-sized view that displays the given image, supporting pinch & zoom

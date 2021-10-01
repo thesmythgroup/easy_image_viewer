@@ -1,8 +1,9 @@
-import 'package:easy_image_viewer/single_image_provider.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_test/flutter_test.dart';
+import 'package:easy_image_viewer/src/single_image_provider.dart';
 
 import 'support/test_helper.dart';
+
+import 'package:flutter/material.dart';
+import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('SingleImageProvider', () {
