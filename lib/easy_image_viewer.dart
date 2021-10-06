@@ -19,13 +19,17 @@ export 'src/easy_image_view_pager.dart' show EasyImageViewPager;
 /// Shows the given [imageProvider] in a full-screen [Dialog].
 /// Setting [immersive] to false will prevent the top and bottom bars from being hidden.
 /// The optional [onViewerDismissed] callback function is called when the dialog is closed.
+/// The optional [useSafeArea] boolean defaults to false and is passed to [showDialog].
 Future<Dialog?> showImageViewer(
     BuildContext context, ImageProvider imageProvider,
-    {bool immersive = true, void Function()? onViewerDismissed}) {
+    {bool immersive = true,
+    void Function()? onViewerDismissed,
+    bool useSafeArea = false}) {
   return showImageViewerPager(context, SingleImageProvider(imageProvider),
       immersive: immersive,
       onViewerDismissed:
-          onViewerDismissed != null ? (_) => onViewerDismissed() : null);
+          onViewerDismissed != null ? (_) => onViewerDismissed() : null,
+      useSafeArea: useSafeArea);
 }
 
 /// Shows the images provided by the [imageProvider] in a full-screen PageView [Dialog].
@@ -34,6 +38,7 @@ Future<Dialog?> showImageViewer(
 /// the image when the user has swiped to another image.
 /// The optional [onViewerDismissed] callback function is called with the index of
 /// the image that is displayed when the dialog is closed.
+/// The optional [useSafeArea] boolean defaults to false and is passed to [showDialog].
 /// The [closeButtonTooltip] text is displayed when the user long-presses on the
 /// close button and is used for accessibility.
 Future<Dialog?> showImageViewerPager(
@@ -41,6 +46,7 @@ Future<Dialog?> showImageViewerPager(
     {bool immersive = true,
     void Function(int)? onPageChanged,
     void Function(int)? onViewerDismissed,
+    bool useSafeArea = false,
     String closeButtonTooltip = 'Close'}) {
   if (immersive) {
     // Hide top and bottom bars
@@ -60,6 +66,7 @@ Future<Dialog?> showImageViewerPager(
 
   return showDialog<Dialog>(
       context: context,
+      useSafeArea: useSafeArea,
       builder: (context) {
         return Dialog(
             backgroundColor: Colors.black,

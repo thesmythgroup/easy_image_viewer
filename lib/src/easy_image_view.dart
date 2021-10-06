@@ -34,10 +34,8 @@ class _EasyImageViewState extends State<EasyImageView> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return SizedBox.expand(
         key: const Key('easy_image_sized_box'),
-        width: MediaQuery.of(context).size.width,
-        height: MediaQuery.of(context).size.height,
         child: InteractiveViewer(
           key: const Key('easy_image_interactive_viewer'),
           transformationController: _transformationController,

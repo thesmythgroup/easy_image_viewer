@@ -35,8 +35,8 @@ void main() {
 
       // Check properties
       SizedBox sizedBox = tester.firstWidget(sizedBoxFinder);
-      expect(sizedBox.width, 600);
-      expect(sizedBox.height, 800);
+      expect(sizedBox.width, double.infinity);
+      expect(sizedBox.height, double.infinity);
       InteractiveViewer interactiveViewer =
           tester.firstWidget(interactiveViewFinder);
       expect(interactiveViewer.minScale, 0.5);
