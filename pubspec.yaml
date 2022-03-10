@@ -1,6 +1,6 @@
 name: easy_image_viewer
 description: An easy image viewer with pinch & zoom, multi image, and built-in full-screen dialog support.
-version: 1.0.3
+version: 1.0.4
 homepage: https://github.com/thesmythgroup/easy_image_viewer
 
 environment:

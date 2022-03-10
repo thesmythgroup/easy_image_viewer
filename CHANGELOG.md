@@ -1,5 +1,9 @@
 # EasyImageViewer Changelog
 
+## 1.0.4
+
+- Add `backgroundColor` and `closeButtonColor` arguments that default to `black` and `white` respectively. These values are passed through to `showDialog` so the background color and the close button color can be customized.
+
 ## 1.0.3
 
 - Add `useSafeArea` argument that defaults to `false` and pass it through to `showDialog` to let a zoomed-in image fill the entire screen.
