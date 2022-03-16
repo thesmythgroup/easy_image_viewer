@@ -16,20 +16,35 @@ export 'src/multi_image_provider.dart' show MultiImageProvider;
 export 'src/easy_image_view.dart' show EasyImageView;
 export 'src/easy_image_view_pager.dart' show EasyImageViewPager;
 
+// Defined here so we don't repeat ourselves
+const _defaultBackgroundColor = Colors.black;
+const _defaultCloseButtonColor = Colors.white;
+const _defaultCloseButtonTooltip = 'Close';
+
 /// Shows the given [imageProvider] in a full-screen [Dialog].
 /// Setting [immersive] to false will prevent the top and bottom bars from being hidden.
 /// The optional [onViewerDismissed] callback function is called when the dialog is closed.
 /// The optional [useSafeArea] boolean defaults to false and is passed to [showDialog].
+/// The [backgroundColor] defaults to black, but can be set to any other color.
+/// The [closeButtonTooltip] text is displayed when the user long-presses on the
+/// close button and is used for accessibility.
+/// The [closeButtonColor] defaults to white, but can be set to any other color.
 Future<Dialog?> showImageViewer(
     BuildContext context, ImageProvider imageProvider,
     {bool immersive = true,
     void Function()? onViewerDismissed,
-    bool useSafeArea = false}) {
+    bool useSafeArea = false,
+    Color backgroundColor = _defaultBackgroundColor,
+    String closeButtonTooltip = _defaultCloseButtonTooltip,
+    Color closeButtonColor = _defaultCloseButtonColor}) {
   return showImageViewerPager(context, SingleImageProvider(imageProvider),
       immersive: immersive,
       onViewerDismissed:
           onViewerDismissed != null ? (_) => onViewerDismissed() : null,
-      useSafeArea: useSafeArea);
+      useSafeArea: useSafeArea,
+      backgroundColor: backgroundColor,
+      closeButtonTooltip: closeButtonTooltip,
+      closeButtonColor: closeButtonColor);
 }
 
 /// Shows the images provided by the [imageProvider] in a full-screen PageView [Dialog].
@@ -39,15 +54,19 @@ Future<Dialog?> showImageViewer(
 /// The optional [onViewerDismissed] callback function is called with the index of
 /// the image that is displayed when the dialog is closed.
 /// The optional [useSafeArea] boolean defaults to false and is passed to [showDialog].
+/// The [backgroundColor] defaults to black, but can be set to any other color.
 /// The [closeButtonTooltip] text is displayed when the user long-presses on the
 /// close button and is used for accessibility.
+/// The [closeButtonColor] defaults to white, but can be set to any other color.
 Future<Dialog?> showImageViewerPager(
     BuildContext context, EasyImageProvider imageProvider,
     {bool immersive = true,
     void Function(int)? onPageChanged,
     void Function(int)? onViewerDismissed,
     bool useSafeArea = false,
-    String closeButtonTooltip = 'Close'}) {
+    Color backgroundColor = _defaultBackgroundColor,
+    String closeButtonTooltip = _defaultCloseButtonTooltip,
+    Color closeButtonColor = _defaultCloseButtonColor}) {
   if (immersive) {
     // Hide top and bottom bars
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
@@ -69,7 +88,7 @@ Future<Dialog?> showImageViewerPager(
       useSafeArea: useSafeArea,
       builder: (context) {
         return Dialog(
-            backgroundColor: Colors.black,
+            backgroundColor: backgroundColor,
             insetPadding: const EdgeInsets.all(0),
             child: Stack(
                 clipBehavior: Clip.none,
@@ -83,7 +102,7 @@ Future<Dialog?> showImageViewerPager(
                       right: 5,
                       child: IconButton(
                         icon: const Icon(Icons.close),
-                        color: Colors.white,
+                        color: closeButtonColor,
                         tooltip: closeButtonTooltip,
                         onPressed: () {
                           Navigator.of(context).pop();
