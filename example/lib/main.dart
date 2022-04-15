@@ -32,12 +32,18 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final _pageController = PageController();
+  static const _kDuration = Duration(milliseconds: 300);
+  static const _kCurve = Curves.ease;
+
   final List<ImageProvider> _imageProviders = [
     Image.network("https://picsum.photos/id/1001/5616/3744").image,
     Image.network("https://picsum.photos/id/1003/1181/1772").image,
     Image.network("https://picsum.photos/id/1004/5616/3744").image,
     Image.network("https://picsum.photos/id/1005/5760/3840").image
   ];
+
+  late final _easyEmbeddedImageProvider = MultiImageProvider(_imageProviders);
 
   @override
   Widget build(BuildContext context) {
@@ -81,7 +87,38 @@ class _MyHomePageState extends State<MyHomePage> {
                 }, onViewerDismissed: (page) {
                   // print("Dismissed while on page $page");
                 });
-              })
+              }),
+          SizedBox(
+            width: MediaQuery.of(context).size.width,
+            height: MediaQuery.of(context).size.height / 2.0,
+            child: EasyImageViewPager(
+                easyImageProvider: _easyEmbeddedImageProvider,
+                pageController: _pageController),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              ElevatedButton(
+                  child: const Text("<< Prev"),
+                  onPressed: () {
+                    final currentPage = _pageController.page?.toInt() ?? 0;
+                    _pageController.animateToPage(
+                        currentPage > 0 ? currentPage - 1 : 0,
+                        duration: _kDuration,
+                        curve: _kCurve);
+                  }),
+              ElevatedButton(
+                  child: const Text("Next >>"),
+                  onPressed: () {
+                    final currentPage = _pageController.page?.toInt() ?? 0;
+                    final lastPage = _easyEmbeddedImageProvider.imageCount - 1;
+                    _pageController.animateToPage(
+                        currentPage < lastPage ? currentPage + 1 : lastPage,
+                        duration: _kDuration,
+                        curve: _kCurve);
+                  }),
+            ],
+          )
         ],
       )),
     );
