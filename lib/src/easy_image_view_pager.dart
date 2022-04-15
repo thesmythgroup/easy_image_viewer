@@ -1,7 +1,16 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 
 import 'easy_image_provider.dart';
 import 'easy_image_view.dart';
+
+/// Custom ScrollBehavior that allows dragging with all pointers
+/// including the normally excluded mouse
+class MouseEnabledScrollBehavior extends MaterialScrollBehavior {
+  // Override behavior methods and getters like dragDevices
+  @override
+  Set<PointerDeviceKind> get dragDevices => PointerDeviceKind.values.toSet();
+}
 
 /// PageView for swiping through a list of images
 class EasyImageViewPager extends StatefulWidget {
@@ -35,6 +44,7 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
       key: const Key('easy_image_view_page_view'),
       itemCount: widget.easyImageProvider.imageCount,
       controller: pageController,
+      scrollBehavior: MouseEnabledScrollBehavior(),
       itemBuilder: (context, index) {
         final image = widget.easyImageProvider.imageBuilder(context, index);
         return EasyImageView(
