@@ -40,7 +40,7 @@ void main() {
       await tester.pumpWidget(testWidget);
 
       // Create the Finders.
-      final pageViewFinder = find.byKey(const Key('easy_image_view_page_view'));
+      final pageViewFinder = find.byKey(GlobalObjectKey(multiImageProvider));
       final easyImageViewFinder = find.byKey(const Key('easy_image_view_0'));
       final imageFinder = find.image(imageProviders.first);
 
