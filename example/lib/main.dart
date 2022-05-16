@@ -58,16 +58,13 @@ class _MyHomePageState extends State<MyHomePage> {
           ElevatedButton(
               child: const Text("Show Single Image"),
               onPressed: () {
-                showImageViewer(
-                    context,
-                    Image.network("https://picsum.photos/id/1001/5616/3744")
-                        .image);
+                showImageViewer(context, Image.network("https://picsum.photos/id/1001/5616/3744").image,
+                    swipeDismissable: true);
               }),
           ElevatedButton(
               child: const Text("Show Multiple Images (Simple)"),
               onPressed: () {
-                MultiImageProvider multiImageProvider =
-                    MultiImageProvider(_imageProviders);
+                MultiImageProvider multiImageProvider = MultiImageProvider(_imageProviders);
                 showImageViewerPager(context, multiImageProvider);
               }),
           ElevatedButton(
