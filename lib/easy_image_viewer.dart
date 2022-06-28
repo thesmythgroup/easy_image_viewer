@@ -120,6 +120,7 @@ class EasyImageViewerDismissableDialog extends StatefulWidget {
 class _EasyImageViewerDismissableDialogState extends State<EasyImageViewerDismissableDialog> with AutomaticKeepAliveClientMixin {
   
   DismissDirection _dismissDirection = DismissDirection.down;
+  bool _canDismiss = true;
   final PageController _pageController = PageController();
 
   _EasyImageViewerDismissableDialogState() : super() {
@@ -140,7 +141,7 @@ class _EasyImageViewerDismissableDialogState extends State<EasyImageViewerDismis
                 EasyImageViewPager(easyImageProvider: widget.imageProvider, pageController: _pageController, onScaleChanged: (scale) {
                   setState(() {
                     print("setState. old $_dismissDirection");
-                    _dismissDirection = scale <= 1.0 ? DismissDirection.down : DismissDirection.none;
+                    _canDismiss = scale <= 1.0;
                     print("setState. new $_dismissDirection ${_pageController.page}");
                   });
                 }),
@@ -173,6 +174,13 @@ class _EasyImageViewerDismissableDialogState extends State<EasyImageViewerDismis
             return Dismissible(
                 direction: _dismissDirection,
                 resizeDuration: null,
+                confirmDismiss: (_) async {
+                  if (_canDismiss) {
+                    return true;
+                  } else {
+                    return false;
+                  }
+                },
                 onDismissed: (_) {
                   Navigator.of(context).pop();
                 },
