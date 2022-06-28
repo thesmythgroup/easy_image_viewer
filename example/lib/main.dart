@@ -65,7 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
               child: const Text("Show Multiple Images (Simple)"),
               onPressed: () {
                 MultiImageProvider multiImageProvider = MultiImageProvider(_imageProviders);
-                showImageViewerPager(context, multiImageProvider);
+                showImageViewerPager(context, multiImageProvider, swipeDismissable: true);
               }),
           ElevatedButton(
               child: const Text("Show Multiple Images (Custom)"),

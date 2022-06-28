@@ -74,61 +74,112 @@ Future<Dialog?> showImageViewerPager(BuildContext context, EasyImageProvider ima
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
   }
 
-  void Function()? internalPageChangeListener;
-  final pageController = PageController(initialPage: imageProvider.initialIndex);
-
-  if (onPageChanged != null) {
-    internalPageChangeListener = () {
-      onPageChanged(pageController.page?.round() ?? 0);
-    };
-    pageController.addListener(internalPageChangeListener);
-  }
-
   return showDialog<Dialog>(
       context: context,
       useSafeArea: useSafeArea,
       builder: (context) {
-        final dialog = Dialog(
-            backgroundColor: backgroundColor,
-            insetPadding: const EdgeInsets.all(0),
-            child: Stack(clipBehavior: Clip.none, alignment: Alignment.center, children: <Widget>[
-              EasyImageViewPager(easyImageProvider: imageProvider, pageController: pageController),
-              Positioned(
-                  top: 5,
-                  right: 5,
-                  child: IconButton(
-                    icon: const Icon(Icons.close),
-                    color: closeButtonColor,
-                    tooltip: closeButtonTooltip,
-                    onPressed: () {
-                      Navigator.of(context).pop();
-
-                      if (onViewerDismissed != null) {
-                        onViewerDismissed(pageController.page?.round() ?? 0);
-                      }
-
-                      if (immersive) {
-                        SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-                      }
-                      if (internalPageChangeListener != null) {
-                        pageController.removeListener(internalPageChangeListener);
-                      }
-                      pageController.dispose();
-                    },
-                  ))
-            ]));
-
-        if (swipeDismissable) {
-          return Dismissible(
-              direction: DismissDirection.down,
-              resizeDuration: null,
-              onDismissed: (_) {
-                Navigator.of(context).pop();
-              },
-              key: const Key('dismissable_easy_image_viewer_dialog'),
-              child: dialog);
-        } else {
-          return dialog;
-        }
+        print("---build showDialog");
+        return EasyImageViewerDismissableDialog(imageProvider, immersive: immersive, onPageChanged: onPageChanged, onViewerDismissed: onViewerDismissed, useSafeArea: useSafeArea, swipeDismissable: swipeDismissable, backgroundColor: backgroundColor, closeButtonColor: closeButtonColor, closeButtonTooltip: closeButtonTooltip);
       });
+}
+
+class EasyImageViewerDismissableDialog extends StatefulWidget {
+  final EasyImageProvider imageProvider;
+  // final PageController pageController;
+  final bool immersive;
+  final void Function(int)? onPageChanged;
+  final void Function(int)? onViewerDismissed;
+  final bool useSafeArea;
+  final bool swipeDismissable;
+  final Color backgroundColor;
+  final String closeButtonTooltip;
+  final Color closeButtonColor;
+  void Function()? internalPageChangeListener;
+
+  EasyImageViewerDismissableDialog(this.imageProvider, {Key? key, bool this.immersive = true,
+    void Function(int)? this.onPageChanged,
+    void Function(int)? this.onViewerDismissed,
+    bool this.useSafeArea = false,
+    bool this.swipeDismissable = false,
+    Color this.backgroundColor = _defaultBackgroundColor,
+    String this.closeButtonTooltip = _defaultCloseButtonTooltip,
+    Color this.closeButtonColor = _defaultCloseButtonColor}) : /*pageController = PageController(initialPage: imageProvider.initialIndex),*/ super(key: key) {
+      // if (onPageChanged != null) {
+      //   internalPageChangeListener = () {
+      //     onPageChanged!(pageController.page?.round() ?? 0);
+      //   };
+      //   pageController.addListener(internalPageChangeListener!);
+      // }  
+      print("---creating new widget");
+    }
+
+  @override
+  State<EasyImageViewerDismissableDialog> createState() => _EasyImageViewerDismissableDialogState();
+}
+
+class _EasyImageViewerDismissableDialogState extends State<EasyImageViewerDismissableDialog> with AutomaticKeepAliveClientMixin {
+  
+  DismissDirection _dismissDirection = DismissDirection.down;
+  final PageController _pageController = PageController();
+
+  _EasyImageViewerDismissableDialogState() : super() {
+    print("---creating new state");
+  }
+  
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
+  Widget build(BuildContext context) {
+    super.build(context);
+    print("--- state build ${_pageController.positions.length > 0 ? _pageController.page : -1}");
+    final dialog = Dialog(
+              backgroundColor: widget.backgroundColor,
+              insetPadding: const EdgeInsets.all(0),
+              child: Stack(clipBehavior: Clip.none, alignment: Alignment.center, children: <Widget>[
+                EasyImageViewPager(easyImageProvider: widget.imageProvider, pageController: _pageController, onScaleChanged: (scale) {
+                  setState(() {
+                    print("setState. old $_dismissDirection");
+                    _dismissDirection = scale <= 1.0 ? DismissDirection.down : DismissDirection.none;
+                    print("setState. new $_dismissDirection ${_pageController.page}");
+                  });
+                }),
+                Positioned(
+                    top: 5,
+                    right: 5,
+                    child: IconButton(
+                      icon: const Icon(Icons.close),
+                      color: widget.closeButtonColor,
+                      tooltip: widget.closeButtonTooltip,
+                      onPressed: () {
+                        Navigator.of(context).pop();
+
+                        if (widget.onViewerDismissed != null) {
+                          widget.onViewerDismissed!(_pageController.page?.round() ?? 0);
+                        }
+
+                        if (widget.immersive) {
+                          SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+                        }
+                        if (widget.internalPageChangeListener != null) {
+                          _pageController.removeListener(widget.internalPageChangeListener!);
+                        }
+                        _pageController.dispose();
+                      },
+                    ))
+              ]));
+
+          if (widget.swipeDismissable) {
+            return Dismissible(
+                direction: _dismissDirection,
+                resizeDuration: null,
+                onDismissed: (_) {
+                  Navigator.of(context).pop();
+                },
+                key: const Key('dismissable_easy_image_viewer_dialog'),
+                child: dialog);
+          } else {
+            return dialog;
+          }
+  }
 }

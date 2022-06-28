@@ -17,10 +17,14 @@ class EasyImageViewPager extends StatefulWidget {
   final EasyImageProvider easyImageProvider;
   final PageController pageController;
 
+  /// Callback for when the scale has changed, only invoked at the end of
+  /// an interaction.
+  final void Function(double)? onScaleChanged;
+
   /// Create new instance, using the [easyImageProvider] to populate the [PageView],
   /// and the [pageController] to control the initial image index to display.
   const EasyImageViewPager(
-      {Key? key, required this.easyImageProvider, required this.pageController})
+      {Key? key, required this.easyImageProvider, required this.pageController, this.onScaleChanged})
       : super(key: key);
 
   @override
@@ -29,14 +33,18 @@ class EasyImageViewPager extends StatefulWidget {
       _EasyImageViewPagerState(pageController: pageController);
 }
 
-class _EasyImageViewPagerState extends State<EasyImageViewPager> {
+class _EasyImageViewPagerState extends State<EasyImageViewPager> with AutomaticKeepAliveClientMixin{
   final PageController pageController;
   bool _pagingEnabled = true;
 
   _EasyImageViewPagerState({required this.pageController}) : super();
 
   @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return PageView.builder(
       physics: _pagingEnabled
           ? const PageScrollPhysics()
@@ -51,6 +59,10 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
           key: Key('easy_image_view_$index'),
           imageProvider: image,
           onScaleChanged: (scale) {
+            if (widget.onScaleChanged != null) {
+              widget.onScaleChanged!(scale);
+            }
+            
             setState(() {
               _pagingEnabled = scale <= 1.0;
             });
