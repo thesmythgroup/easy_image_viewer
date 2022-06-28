@@ -175,11 +175,7 @@ class _EasyImageViewerDismissableDialogState extends State<EasyImageViewerDismis
                 direction: _dismissDirection,
                 resizeDuration: null,
                 confirmDismiss: (_) async {
-                  if (_canDismiss) {
-                    return true;
-                  } else {
-                    return false;
-                  }
+                  return _canDismiss;
                 },
                 onDismissed: (_) {
                   Navigator.of(context).pop();
