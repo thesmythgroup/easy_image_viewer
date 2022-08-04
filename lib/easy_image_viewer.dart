@@ -83,11 +83,36 @@ Future<Dialog?> showImageViewerPager(
     pageController.addListener(internalPageChangeListener);
   }
 
+  // internal function to be called whenever the dialog
+  // is dismissed, whether through the Android back button,
+  // or through the "x" close button.
+  handleDismissal() {
+    if (onViewerDismissed != null) {
+      onViewerDismissed(
+          pageController.page?.round() ?? 0);
+    }
+
+    if (immersive) {
+      SystemChrome.setEnabledSystemUIMode(
+          SystemUiMode.edgeToEdge);
+    }
+    if (internalPageChangeListener != null) {
+      pageController
+          .removeListener(internalPageChangeListener);
+    }
+    pageController.dispose();
+  }
+
   return showDialog<Dialog>(
       context: context,
       useSafeArea: useSafeArea,
       builder: (context) {
-        return Dialog(
+        return WillPopScope(
+          onWillPop: () async {
+            handleDismissal();
+            return true;
+          },
+          child: Dialog(
             backgroundColor: backgroundColor,
             insetPadding: const EdgeInsets.all(0),
             child: Stack(
@@ -107,22 +132,10 @@ Future<Dialog?> showImageViewerPager(
                         onPressed: () {
                           Navigator.of(context).pop();
 
-                          if (onViewerDismissed != null) {
-                            onViewerDismissed(
-                                pageController.page?.round() ?? 0);
-                          }
-
-                          if (immersive) {
-                            SystemChrome.setEnabledSystemUIMode(
-                                SystemUiMode.edgeToEdge);
-                          }
-                          if (internalPageChangeListener != null) {
-                            pageController
-                                .removeListener(internalPageChangeListener);
-                          }
-                          pageController.dispose();
+                          handleDismissal();
                         },
                       ))
-                ]));
+                ]))
+        );
       });
 }
