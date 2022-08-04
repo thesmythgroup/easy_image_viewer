@@ -115,6 +115,9 @@ Future<Dialog?> showImageViewerPager(
           child: Dialog(
             backgroundColor: backgroundColor,
             insetPadding: const EdgeInsets.all(0),
+            // We set the shape here to ensure no rounded corners allow any of the 
+            // underlying view to show. We want the whole background to be covered.
+            shape: const RoundedRectangleBorder(borderRadius: BorderRadius.zero),
             child: Stack(
                 clipBehavior: Clip.none,
                 alignment: Alignment.center,
