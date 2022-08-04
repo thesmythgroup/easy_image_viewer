@@ -66,36 +66,35 @@ class _EasyImageViewerDismissibleDialogState extends State<EasyImageViewerDismis
   
   @override
   Widget build(BuildContext context) {
-    final dialog = Dialog(
-      backgroundColor: widget.backgroundColor,
-      insetPadding: const EdgeInsets.all(0),
-      child: Stack(clipBehavior: Clip.none, alignment: Alignment.center, children: <Widget>[
-        EasyImageViewPager(easyImageProvider: widget.imageProvider, pageController: _pageController, onScaleChanged: (scale) {
-          setState(() {
-            _dismissDirection = scale <= 1.0 ? DismissDirection.down : DismissDirection.none;
-          });
-        }),
-        Positioned(
-          top: 5,
-          right: 5,
-          child: IconButton(
-            icon: const Icon(Icons.close),
-            color: widget.closeButtonColor,
-            tooltip: widget.closeButtonTooltip,
-            onPressed: () {
-              Navigator.of(context).pop();
-
-              if (widget.onViewerDismissed != null) {
-                widget.onViewerDismissed!(_pageController.page?.round() ?? 0);
-              }
-
-              if (widget.immersive) {
-                SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-              }
-            },
+    final popScopeAwareDialog = WillPopScope(
+      onWillPop: () async {
+        _handleDismissal();
+        return true;
+      },
+      child: Dialog(
+        backgroundColor: widget.backgroundColor,
+        insetPadding: const EdgeInsets.all(0),
+        child: Stack(clipBehavior: Clip.none, alignment: Alignment.center, children: <Widget>[
+          EasyImageViewPager(easyImageProvider: widget.imageProvider, pageController: _pageController, onScaleChanged: (scale) {
+            setState(() {
+              _dismissDirection = scale <= 1.0 ? DismissDirection.down : DismissDirection.none;
+            });
+          }),
+          Positioned(
+            top: 5,
+            right: 5,
+            child: IconButton(
+              icon: const Icon(Icons.close),
+              color: widget.closeButtonColor,
+              tooltip: widget.closeButtonTooltip,
+              onPressed: () {
+                Navigator.of(context).pop();
+                _handleDismissal();
+              },
+            )
           )
-        )
-      ]
+        ]
+      )
     ));
 
     if (widget.swipeDismissible) {
@@ -108,19 +107,29 @@ class _EasyImageViewerDismissibleDialogState extends State<EasyImageViewerDismis
         onDismissed: (_) {
           Navigator.of(context).pop();
 
-          if (widget.onViewerDismissed != null) {
-                widget.onViewerDismissed!(_pageController.page?.round() ?? 0);
-              }
-
-              if (widget.immersive) {
-                SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
-              }
+          _handleDismissal();
         },
         key: const Key('dismissible_easy_image_viewer_dialog'),
-        child: dialog
+        child: popScopeAwareDialog
       );
     } else {
-      return dialog;
+      return popScopeAwareDialog;
+    }
+  }
+
+  // Internal function to be called whenever the dialog
+  // is dismissed, whether through the Android back button,
+  // through the "x" close button, or through swipe-to-dismiss.
+  void _handleDismissal() {
+    if (widget.onViewerDismissed != null) {
+      widget.onViewerDismissed!(_pageController.page?.round() ?? 0);
+    }
+
+    if (widget.immersive) {
+      SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+    }
+    if (_internalPageChangeListener != null) {
+      _pageController.removeListener(_internalPageChangeListener!);
     }
   }
 }
