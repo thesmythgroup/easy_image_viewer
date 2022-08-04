@@ -24,7 +24,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Create the Finders.
-      final pageViewFinder = find.byKey(const Key('easy_image_view_page_view'));
+      final pageViewFinder = find.byWidgetPredicate((widget) => widget is PageView);
       final closeButtonFinder = find.byIcon(Icons.close);
 
       // Check existence
@@ -96,7 +96,7 @@ void main() {
       await tester.pumpAndSettle();
 
       // Create the Finders.
-      final pageViewFinder = find.byKey(const Key('easy_image_view_page_view'));
+      final pageViewFinder = find.byKey(GlobalObjectKey(multiImageProvider));
       final closeButtonFinder = find.byIcon(Icons.close);
 
       // Check existence
@@ -120,6 +120,51 @@ void main() {
 
       expect(dismissed, true);
       expect(pageOnDismissal, 2);
+    });
+
+    testWidgets('should invoke callbacks when dismissed with a swipe',
+        (WidgetTester tester) async {
+      List<ImageProvider> imageProviders = List.empty(growable: true);
+      final context = await createTestBuildContext(tester);
+      bool dismissed = false;
+      int pageOnDismissal = -1;
+
+      await tester.runAsync(() async {
+        const colors = [
+          Colors.amber,
+          Colors.red,
+          Colors.green,
+          Colors.blue,
+          Colors.teal
+        ];
+        imageProviders =
+            await Future.wait(colors.map((color) => createColorImage(color)));
+      });
+
+      final multiImageProvider = MultiImageProvider(imageProviders);
+
+      final dialogFuture = showImageViewerPager(context, multiImageProvider,
+        swipeDismissible: true,
+        onViewerDismissed: (page) {
+          dismissed = true;
+          pageOnDismissal = page;
+      });
+      await tester.pumpAndSettle();
+
+      // Create the Finders.
+      final dismissibleFinder = find.byWidgetPredicate((widget) => widget is Dismissible);
+
+      // Check existence
+      expect(dismissibleFinder, findsOneWidget);
+
+      // Swipe to dismiss
+      await tester.drag(dismissibleFinder, const Offset(0, 501.0));
+      await tester.pumpAndSettle();
+
+      await dialogFuture;
+
+      expect(dismissed, true);
+      expect(pageOnDismissal, 0);
     });
 
     testWidgets('should respect the initialIndex', (WidgetTester tester) async {
