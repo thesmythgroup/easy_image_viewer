@@ -24,7 +24,10 @@ class EasyImageViewPager extends StatefulWidget {
   /// Create new instance, using the [easyImageProvider] to populate the [PageView],
   /// and the [pageController] to control the initial image index to display.
   const EasyImageViewPager(
-      {Key? key, required this.easyImageProvider, required this.pageController, this.onScaleChanged})
+      {Key? key,
+      required this.easyImageProvider,
+      required this.pageController,
+      this.onScaleChanged})
       : super(key: key);
 
   @override
@@ -53,7 +56,7 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
             if (widget.onScaleChanged != null) {
               widget.onScaleChanged!(scale);
             }
-            
+
             setState(() {
               _pagingEnabled = scale <= 1.0;
             });
