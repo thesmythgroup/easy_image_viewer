@@ -1,5 +1,12 @@
 # EasyImageViewer Changelog
 
+## 1.1.0
+
+- Enable dragging the PageView with a mouse [GH-11](https://github.com/thesmythgroup/easy_image_viewer/issues/11).
+- Add option to "swipe down to dismiss" by setting `swipeDismissible` to `true` [GH-14](https://github.com/thesmythgroup/easy_image_viewer/issues/14).
+- Correctly clean up (status bar visibility etc) when using the Android back button to dismiss [GH-15](https://github.com/thesmythgroup/easy_image_viewer/issues/15#issuecomment-1131670449).
+- Don't use rounded corners on the full-screen dialog when using Material 3 [GH-16](https://github.com/thesmythgroup/easy_image_viewer/issues/16).
+
 ## 1.0.4
 
 - Add `backgroundColor` and `closeButtonColor` arguments that default to `black` and `white` respectively. These values are passed through to `showDialog` so the background color and the close button color can be customized.

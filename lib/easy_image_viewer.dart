@@ -30,7 +30,8 @@ const _defaultCloseButtonTooltip = 'Close';
 /// The [closeButtonTooltip] text is displayed when the user long-presses on the
 /// close button and is used for accessibility.
 /// The [closeButtonColor] defaults to white, but can be set to any other color.
-Future<Dialog?> showImageViewer(BuildContext context, ImageProvider imageProvider,
+Future<Dialog?> showImageViewer(
+    BuildContext context, ImageProvider imageProvider,
     {bool immersive = true,
     void Function()? onViewerDismissed,
     bool useSafeArea = false,
@@ -39,13 +40,14 @@ Future<Dialog?> showImageViewer(BuildContext context, ImageProvider imageProvide
     String closeButtonTooltip = _defaultCloseButtonTooltip,
     Color closeButtonColor = _defaultCloseButtonColor}) {
   return showImageViewerPager(context, SingleImageProvider(imageProvider),
-    immersive: immersive,
-    onViewerDismissed: onViewerDismissed != null ? (_) => onViewerDismissed() : null,
-    useSafeArea: useSafeArea,
-    swipeDismissible: swipeDismissible,
-    backgroundColor: backgroundColor,
-    closeButtonTooltip: closeButtonTooltip,
-    closeButtonColor: closeButtonColor);
+      immersive: immersive,
+      onViewerDismissed:
+          onViewerDismissed != null ? (_) => onViewerDismissed() : null,
+      useSafeArea: useSafeArea,
+      swipeDismissible: swipeDismissible,
+      backgroundColor: backgroundColor,
+      closeButtonTooltip: closeButtonTooltip,
+      closeButtonColor: closeButtonColor);
 }
 
 /// Shows the images provided by the [imageProvider] in a full-screen PageView [Dialog].
@@ -60,7 +62,8 @@ Future<Dialog?> showImageViewer(BuildContext context, ImageProvider imageProvide
 /// The [closeButtonTooltip] text is displayed when the user long-presses on the
 /// close button and is used for accessibility.
 /// The [closeButtonColor] defaults to white, but can be set to any other color.
-Future<Dialog?> showImageViewerPager(BuildContext context, EasyImageProvider imageProvider,
+Future<Dialog?> showImageViewerPager(
+    BuildContext context, EasyImageProvider imageProvider,
     {bool immersive = true,
     void Function(int)? onPageChanged,
     void Function(int)? onViewerDismissed,
@@ -75,17 +78,17 @@ Future<Dialog?> showImageViewerPager(BuildContext context, EasyImageProvider ima
   }
 
   return showDialog<Dialog>(
-    context: context,
-    useSafeArea: useSafeArea,
-    builder: (context) {
-      return EasyImageViewerDismissibleDialog(imageProvider, 
-        immersive: immersive,
-        onPageChanged: onPageChanged,
-        onViewerDismissed: onViewerDismissed,
-        useSafeArea: useSafeArea,
-        swipeDismissible: swipeDismissible,
-        backgroundColor: backgroundColor,
-        closeButtonColor: closeButtonColor,
-        closeButtonTooltip: closeButtonTooltip);
-    });
+      context: context,
+      useSafeArea: useSafeArea,
+      builder: (context) {
+        return EasyImageViewerDismissibleDialog(imageProvider,
+            immersive: immersive,
+            onPageChanged: onPageChanged,
+            onViewerDismissed: onViewerDismissed,
+            useSafeArea: useSafeArea,
+            swipeDismissible: swipeDismissible,
+            backgroundColor: backgroundColor,
+            closeButtonColor: closeButtonColor,
+            closeButtonTooltip: closeButtonTooltip);
+      });
 }

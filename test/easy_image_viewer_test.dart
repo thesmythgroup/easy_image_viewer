@@ -24,7 +24,8 @@ void main() {
       await tester.pumpAndSettle();
 
       // Create the Finders.
-      final pageViewFinder = find.byWidgetPredicate((widget) => widget is PageView);
+      final pageViewFinder =
+          find.byWidgetPredicate((widget) => widget is PageView);
       final closeButtonFinder = find.byIcon(Icons.close);
 
       // Check existence
@@ -39,7 +40,8 @@ void main() {
       expect(dismissed, true);
     });
 
-    testWidgets('should respect the backgroundColor and closeButtonColor', (WidgetTester tester) async {
+    testWidgets('should respect the backgroundColor and closeButtonColor',
+        (WidgetTester tester) async {
       late ImageProvider imageProvider;
       final context = await createTestBuildContext(tester);
 
@@ -48,17 +50,17 @@ void main() {
       });
 
       showImageViewer(context, imageProvider,
-        backgroundColor: Colors.red,
-        closeButtonColor: Colors.green
-      );
+          backgroundColor: Colors.red, closeButtonColor: Colors.green);
       await tester.pumpAndSettle();
 
       // Check default closeButtonColor
-      IconButton closeButton = tester.firstWidget(find.widgetWithIcon(IconButton, Icons.close));
+      IconButton closeButton =
+          tester.firstWidget(find.widgetWithIcon(IconButton, Icons.close));
       expect(closeButton.color, Colors.green);
 
       // Check default dialog backgroundColor
-      Dialog dialog = tester.firstWidget(find.byWidgetPredicate((widget) => widget is Dialog));
+      Dialog dialog = tester
+          .firstWidget(find.byWidgetPredicate((widget) => widget is Dialog));
       expect(dialog.backgroundColor, Colors.red);
     });
   });
@@ -144,15 +146,15 @@ void main() {
       final multiImageProvider = MultiImageProvider(imageProviders);
 
       final dialogFuture = showImageViewerPager(context, multiImageProvider,
-        swipeDismissible: true,
-        onViewerDismissed: (page) {
-          dismissed = true;
-          pageOnDismissal = page;
+          swipeDismissible: true, onViewerDismissed: (page) {
+        dismissed = true;
+        pageOnDismissal = page;
       });
       await tester.pumpAndSettle();
 
       // Create the Finders.
-      final dismissibleFinder = find.byWidgetPredicate((widget) => widget is Dismissible);
+      final dismissibleFinder =
+          find.byWidgetPredicate((widget) => widget is Dismissible);
 
       // Check existence
       expect(dismissibleFinder, findsOneWidget);
@@ -199,11 +201,13 @@ void main() {
       final closeButtonFinder = find.byIcon(Icons.close);
 
       // Check default closeButtonColor
-      IconButton closeButton = tester.firstWidget(find.widgetWithIcon(IconButton, Icons.close));
+      IconButton closeButton =
+          tester.firstWidget(find.widgetWithIcon(IconButton, Icons.close));
       expect(closeButton.color, Colors.white);
 
       // Check default dialog backgroundColor
-      Dialog dialog = tester.firstWidget(find.byWidgetPredicate((widget) => widget is Dialog));
+      Dialog dialog = tester
+          .firstWidget(find.byWidgetPredicate((widget) => widget is Dialog));
       expect(dialog.backgroundColor, Colors.black);
 
       // Dismiss the dialog
@@ -215,33 +219,31 @@ void main() {
       expect(pageOnDismissal, 2);
     });
 
-    testWidgets('should respect the backgroundColor and closeButtonColor', (WidgetTester tester) async {
+    testWidgets('should respect the backgroundColor and closeButtonColor',
+        (WidgetTester tester) async {
       List<ImageProvider> imageProviders = List.empty(growable: true);
       final context = await createTestBuildContext(tester);
 
       await tester.runAsync(() async {
-        const colors = [
-          Colors.amber
-        ];
+        const colors = [Colors.amber];
         imageProviders =
             await Future.wait(colors.map((color) => createColorImage(color)));
       });
 
-      final multiImageProvider =
-          MultiImageProvider(imageProviders);
+      final multiImageProvider = MultiImageProvider(imageProviders);
 
       showImageViewerPager(context, multiImageProvider,
-        backgroundColor: Colors.red,
-        closeButtonColor: Colors.green
-      );
+          backgroundColor: Colors.red, closeButtonColor: Colors.green);
       await tester.pumpAndSettle();
 
       // Check default closeButtonColor
-      IconButton closeButton = tester.firstWidget(find.widgetWithIcon(IconButton, Icons.close));
+      IconButton closeButton =
+          tester.firstWidget(find.widgetWithIcon(IconButton, Icons.close));
       expect(closeButton.color, Colors.green);
 
       // Check default dialog backgroundColor
-      Dialog dialog = tester.firstWidget(find.byWidgetPredicate((widget) => widget is Dialog));
+      Dialog dialog = tester
+          .firstWidget(find.byWidgetPredicate((widget) => widget is Dialog));
       expect(dialog.backgroundColor, Colors.red);
     });
   });
