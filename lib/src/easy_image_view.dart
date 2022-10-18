@@ -28,17 +28,28 @@ class EasyImageView extends StatefulWidget {
   _EasyImageViewState createState() => _EasyImageViewState();
 }
 
-class _EasyImageViewState extends State<EasyImageView> {
+class _EasyImageViewState extends State<EasyImageView> with SingleTickerProviderStateMixin {
   final TransformationController _transformationController = TransformationController();
 
-  TapDownDetails _doubleTapDetails=TapDownDetails();
+  TapDownDetails _doubleTapDetails = TapDownDetails();
+  late AnimationController _animationController;
+  late Animation<Matrix4> _mapAnimation ;
 
+  @override
+  void initState() {
+     _animationController = AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
+     _mapAnimation =  Matrix4Tween().animate(_animationController);
+      _mapAnimation.addListener(() {
+        _transformationController.value = _mapAnimation.value;
+      });
+
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return SizedBox.expand(
         key: const Key('easy_image_sized_box'),
-        child: 
-             InteractiveViewer(
+        child: InteractiveViewer(
           key: const Key('easy_image_interactive_viewer'),
           transformationController: _transformationController,
           minScale: widget.minScale,
@@ -46,11 +57,10 @@ class _EasyImageViewState extends State<EasyImageView> {
           child: GestureDetector(
               onDoubleTapDown: _handleDoubleTapDown,
               onDoubleTap: _handleDoubleTap,
-            child: Image(image: widget.imageProvider)
-          ),
+              child: Image(image: widget.imageProvider)),
           onInteractionEnd: (scaleEndDetails) {
             double scale = _transformationController.value.getMaxScaleOnAxis();
-             
+
             if (widget.onScaleChanged != null) {
               widget.onScaleChanged!(scale);
             }
@@ -63,18 +73,18 @@ class _EasyImageViewState extends State<EasyImageView> {
   }
 
   void _handleDoubleTap() {
+    final position = _doubleTapDetails.localPosition;
+    final start = Matrix4.identity();
+    final end = Matrix4.identity()
+        ..translate(-position.dx, -position.dy)
+        ..scale(2.0);
+    
+    _mapAnimation = Matrix4Tween(begin: start, end: end).animate(_animationController);
+
     if (_transformationController.value != Matrix4.identity()) {
-      _transformationController.value = Matrix4.identity();
+      _animationController.reverse();
     } else {
-      final position = _doubleTapDetails.localPosition;
-     
-      _transformationController.value = Matrix4.identity()
-      // Fox a 2x zoom
-      ..translate(-position.dx, -position.dy)
-      ..scale(2.0);
-      // For a 3x zoom
-        // ..translate(-position.dx * 2, -position.dy * 2)
-        // ..scale(3.0);
+      _animationController.forward();
     }
   }
 }

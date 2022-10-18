@@ -3,5 +3,8 @@
       "editor.defaultFormatter": "Dart-Code.dart-code",
       "editor.formatOnSave": false
     },
-    "dart.lineLength": 120
+    "dart.lineLength": 120,
+    "cSpell.words": [
+      "vsync"
+    ]
   }
