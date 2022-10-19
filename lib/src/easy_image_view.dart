@@ -33,15 +33,11 @@ class _EasyImageViewState extends State<EasyImageView> with SingleTickerProvider
 
   TapDownDetails _doubleTapDetails = TapDownDetails();
   late AnimationController _animationController;
-  late Animation<Matrix4> _mapAnimation ;
+  Animation<Matrix4>? _doubleTapAnimation;
 
   @override
   void initState() {
-     _animationController = AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
-     _mapAnimation =  Matrix4Tween().animate(_animationController);
-      _mapAnimation.addListener(() {
-        _transformationController.value = _mapAnimation.value;
-      });
+    _animationController = AnimationController(duration: const Duration(milliseconds: 200), vsync: this);
 
     super.initState();
   }
@@ -73,18 +69,49 @@ class _EasyImageViewState extends State<EasyImageView> with SingleTickerProvider
   }
 
   void _handleDoubleTap() {
-    final position = _doubleTapDetails.localPosition;
-    final start = Matrix4.identity();
-    final end = Matrix4.identity()
-        ..translate(-position.dx, -position.dy)
-        ..scale(2.0);
-    
-    _mapAnimation = Matrix4Tween(begin: start, end: end).animate(_animationController);
+    _doubleTapAnimation?.removeListener(_animationListener);
+    _doubleTapAnimation?.removeStatusListener(_animationStatusListener);
 
-    if (_transformationController.value != Matrix4.identity()) {
-      _animationController.reverse();
+    double scale = _transformationController.value.getMaxScaleOnAxis(); 
+
+    if (scale < 2.0) {
+      // If we are not at a 2x scale yet, zoom in all the way to 2x.
+      final position = _doubleTapDetails.localPosition;
+      final begin = _transformationController.value;
+      final end = Matrix4.identity()
+          ..translate(-position.dx, -position.dy)
+          ..scale(2.0);
+      
+      _updateDoubleTapAnimation(begin, end);
+      _animationController.forward(from: 0.0);
     } else {
-      _animationController.forward();
+      // If we are zoomed in at 2x or more, zoom all the way out
+      final begin = Matrix4.identity();
+      final end = _transformationController.value;
+    
+      _updateDoubleTapAnimation(begin, end);
+      
+      _animationController.reverse(from: scale - 1.0);
+    }
+  }
+
+  void _updateDoubleTapAnimation(Matrix4 begin, Matrix4 end) {
+    _doubleTapAnimation = Matrix4Tween(begin: begin, end: end).animate(_animationController);
+    _doubleTapAnimation?.addListener(_animationListener);
+    _doubleTapAnimation?.addStatusListener(_animationStatusListener);
+  }
+
+  void _animationListener() {
+    _transformationController.value = _doubleTapAnimation?.value ?? Matrix4.identity();
+  }
+
+  void _animationStatusListener(AnimationStatus status) {
+    if (status == AnimationStatus.completed || status == AnimationStatus.dismissed) {
+      double scale = _transformationController.value.getMaxScaleOnAxis();
+
+      if (widget.onScaleChanged != null) {
+        widget.onScaleChanged!(scale);
+      }
     }
   }
 }
