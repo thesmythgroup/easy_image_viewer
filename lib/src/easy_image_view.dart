@@ -103,12 +103,6 @@ class _EasyImageViewState extends State<EasyImageView> with SingleTickerProvider
 
   void _animationListener() {
     _transformationController.value = _doubleTapAnimation?.value ?? Matrix4.identity();
-
-     double scale = _transformationController.value.getMaxScaleOnAxis();
-
-      if (widget.onScaleChanged != null) {
-        widget.onScaleChanged!(scale);
-      }
   }
 
   void _animationStatusListener(AnimationStatus status) {
