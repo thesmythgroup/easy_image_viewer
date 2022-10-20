@@ -85,7 +85,7 @@ void main() {
 
       expect(lastScale, greaterThan(1));
     });
-  });
+
 
   testWidgets('should invoke the onScaleChanged callback when double tap', (WidgetTester tester) async {
       ImageProvider? imageProvider;
@@ -128,5 +128,5 @@ void main() {
 
       expect(lastScale, 2.0);
     });
-
+  });
 }
