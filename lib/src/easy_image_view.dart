@@ -11,16 +11,21 @@ class EasyImageView extends StatefulWidget {
   /// Maximum scale factor
   final double maxScale;
 
+  /// Whether to allow double tap to zoom in and out
+  final bool doubleTapZoomable;
+
   /// Callback for when the scale has changed, only invoked at the end of
   /// an interaction.
   final void Function(double)? onScaleChanged;
 
   /// Create a new instance
+  /// The optional [doubleTapZoomable] boolean defaults to false and allows double tap to zoom.
   const EasyImageView({
     Key? key,
     required this.imageProvider,
     this.minScale = 1.0,
     this.maxScale = 5.0,
+    this.doubleTapZoomable = false,
     this.onScaleChanged,
   }) : super(key: key);
 
@@ -41,8 +46,10 @@ class _EasyImageViewState extends State<EasyImageView> with SingleTickerProvider
 
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
+    final image = Image(image: widget.imageProvider);
     return SizedBox.expand(
         key: const Key('easy_image_sized_box'),
         child: InteractiveViewer(
@@ -50,10 +57,10 @@ class _EasyImageViewState extends State<EasyImageView> with SingleTickerProvider
           transformationController: _transformationController,
           minScale: widget.minScale,
           maxScale: widget.maxScale,
-          child: GestureDetector(
+          child: widget.doubleTapZoomable ? GestureDetector(
               onDoubleTapDown: _handleDoubleTapDown,
               onDoubleTap: _handleDoubleTap,
-              child: Image(image: widget.imageProvider)),
+              child: image) : image,
           onInteractionEnd: (scaleEndDetails) {
             double scale = _transformationController.value.getMaxScaleOnAxis();
 
@@ -96,7 +103,7 @@ class _EasyImageViewState extends State<EasyImageView> with SingleTickerProvider
   }
 
   void _updateDoubleTapAnimation(Matrix4 begin, Matrix4 end) {
-    _doubleTapAnimation = Matrix4Tween(begin: begin, end: end).animate(_animationController);
+    _doubleTapAnimation = Matrix4Tween(begin: begin, end: end).animate(CurveTween(curve: Curves.easeInOut).animate(_animationController));
     _doubleTapAnimation?.addListener(_animationListener);
     _doubleTapAnimation?.addStatusListener(_animationStatusListener);
   }
@@ -113,5 +120,11 @@ class _EasyImageViewState extends State<EasyImageView> with SingleTickerProvider
         widget.onScaleChanged!(scale);
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 }

@@ -25,7 +25,8 @@ const _defaultCloseButtonTooltip = 'Close';
 /// Setting [immersive] to false will prevent the top and bottom bars from being hidden.
 /// The optional [onViewerDismissed] callback function is called when the dialog is closed.
 /// The optional [useSafeArea] boolean defaults to false and is passed to [showDialog].
-/// The optional [swipeDismissible] boolean defaults to false allows swipe-down-to-dismiss.
+/// The optional [swipeDismissible] boolean defaults to false and allows swipe-down-to-dismiss.
+/// The optional [doubleTapZoomable] boolean defaults to false and allows double tap to zoom.
 /// The [backgroundColor] defaults to black, but can be set to any other color.
 /// The [closeButtonTooltip] text is displayed when the user long-presses on the
 /// close button and is used for accessibility.
@@ -36,6 +37,7 @@ Future<Dialog?> showImageViewer(
     void Function()? onViewerDismissed,
     bool useSafeArea = false,
     bool swipeDismissible = false,
+    bool doubleTapZoomable = false,
     Color backgroundColor = _defaultBackgroundColor,
     String closeButtonTooltip = _defaultCloseButtonTooltip,
     Color closeButtonColor = _defaultCloseButtonColor}) {
@@ -45,6 +47,7 @@ Future<Dialog?> showImageViewer(
           onViewerDismissed != null ? (_) => onViewerDismissed() : null,
       useSafeArea: useSafeArea,
       swipeDismissible: swipeDismissible,
+      doubleTapZoomable: doubleTapZoomable,
       backgroundColor: backgroundColor,
       closeButtonTooltip: closeButtonTooltip,
       closeButtonColor: closeButtonColor);
@@ -57,7 +60,8 @@ Future<Dialog?> showImageViewer(
 /// The optional [onViewerDismissed] callback function is called with the index of
 /// the image that is displayed when the dialog is closed.
 /// The optional [useSafeArea] boolean defaults to false and is passed to [showDialog].
-/// The optional [swipeDismissible] boolean defaults to false allows swipe-down-to-dismiss.
+/// The optional [swipeDismissible] boolean defaults to false and allows swipe-down-to-dismiss.
+/// The optional [doubleTapZoomable] boolean defaults to false and allows double tap to zoom.
 /// The [backgroundColor] defaults to black, but can be set to any other color.
 /// The [closeButtonTooltip] text is displayed when the user long-presses on the
 /// close button and is used for accessibility.
@@ -69,6 +73,7 @@ Future<Dialog?> showImageViewerPager(
     void Function(int)? onViewerDismissed,
     bool useSafeArea = false,
     bool swipeDismissible = false,
+    bool doubleTapZoomable = false,
     Color backgroundColor = _defaultBackgroundColor,
     String closeButtonTooltip = _defaultCloseButtonTooltip,
     Color closeButtonColor = _defaultCloseButtonColor}) {
@@ -87,6 +92,7 @@ Future<Dialog?> showImageViewerPager(
             onViewerDismissed: onViewerDismissed,
             useSafeArea: useSafeArea,
             swipeDismissible: swipeDismissible,
+            doubleTapZoomable: doubleTapZoomable,
             backgroundColor: backgroundColor,
             closeButtonColor: closeButtonColor,
             closeButtonTooltip: closeButtonTooltip);

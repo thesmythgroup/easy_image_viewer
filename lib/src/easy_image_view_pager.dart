@@ -16,6 +16,7 @@ class MouseEnabledScrollBehavior extends MaterialScrollBehavior {
 class EasyImageViewPager extends StatefulWidget {
   final EasyImageProvider easyImageProvider;
   final PageController pageController;
+  final bool doubleTapZoomable;
 
   /// Callback for when the scale has changed, only invoked at the end of
   /// an interaction.
@@ -23,10 +24,12 @@ class EasyImageViewPager extends StatefulWidget {
 
   /// Create new instance, using the [easyImageProvider] to populate the [PageView],
   /// and the [pageController] to control the initial image index to display.
+  /// The optional [doubleTapZoomable] boolean defaults to false and allows double tap to zoom.
   const EasyImageViewPager(
       {Key? key,
       required this.easyImageProvider,
       required this.pageController,
+      this.doubleTapZoomable = false,
       this.onScaleChanged})
       : super(key: key);
 
@@ -52,6 +55,7 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
         return EasyImageView(
           key: Key('easy_image_view_$index'),
           imageProvider: image,
+          doubleTapZoomable: widget.doubleTapZoomable,
           onScaleChanged: (scale) {
             if (widget.onScaleChanged != null) {
               widget.onScaleChanged!(scale);

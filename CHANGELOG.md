@@ -1,5 +1,10 @@
 # EasyImageViewer Changelog
 
+## 1.2.0
+
+- Add option to "double tap to zoom" by setting `doubleTapZoomable` to `true` [GH-24](https://github.com/thesmythgroup/easy_image_viewer/issues/24). Thank you to [Tony](https://github.com/nne998) of [lookingpet](https://github.com/lookingpet/easy_image_viewer) for the initial implementation.
+- Fix an issue where the PageView was not correctly disabled when `swipeDismissible` was `true` and the image was zoomed in [GH-27](https://github.com/thesmythgroup/easy_image_viewer/issues/27).
+
 ## 1.1.0
 
 - Enable dragging the PageView with a mouse [GH-11](https://github.com/thesmythgroup/easy_image_viewer/issues/11).
