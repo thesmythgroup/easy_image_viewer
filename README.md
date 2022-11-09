@@ -11,6 +11,7 @@ An easy way to display images in a full-screen dialog, including pinch & zoom.
 
 * Show a single image or a swipeable list of images
 * Use pinch & zoom to zoom in and out of images
+* Optionally allow "double tap to zoom" by passing in `doubleTapZoomable: true`
 * Optionally allow "swipe down to dismiss" by passing in `swipeDismissible: true`
 * No dependencies besides Flutter
 * Callbacks for `onPageChanged` and `onViewerDismissed`

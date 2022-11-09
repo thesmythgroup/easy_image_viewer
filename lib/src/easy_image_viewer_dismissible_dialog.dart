@@ -15,6 +15,7 @@ class EasyImageViewerDismissibleDialog extends StatefulWidget {
   final void Function(int)? onViewerDismissed;
   final bool useSafeArea;
   final bool swipeDismissible;
+  final bool doubleTapZoomable;
   final Color backgroundColor;
   final String closeButtonTooltip;
   final Color closeButtonColor;
@@ -27,6 +28,7 @@ class EasyImageViewerDismissibleDialog extends StatefulWidget {
       this.onViewerDismissed,
       this.useSafeArea = false,
       this.swipeDismissible = false,
+      this.doubleTapZoomable = false,
       required this.backgroundColor,
       required this.closeButtonTooltip,
       required this.closeButtonColor})
@@ -95,6 +97,7 @@ class _EasyImageViewerDismissibleDialogState
                   EasyImageViewPager(
                       easyImageProvider: widget.imageProvider,
                       pageController: _pageController,
+                      doubleTapZoomable: widget.doubleTapZoomable,
                       onScaleChanged: (scale) {
                         setState(() {
                           _dismissDirection = scale <= 1.0

@@ -37,10 +37,10 @@ class _MyHomePageState extends State<MyHomePage> {
   static const _kCurve = Curves.ease;
 
   final List<ImageProvider> _imageProviders = [
-    Image.network("https://picsum.photos/id/1001/5616/3744").image,
+    Image.network("https://picsum.photos/id/1001/4912/3264").image,
     Image.network("https://picsum.photos/id/1003/1181/1772").image,
-    Image.network("https://picsum.photos/id/1004/5616/3744").image,
-    Image.network("https://picsum.photos/id/1005/5760/3840").image
+    Image.network("https://picsum.photos/id/1004/4912/3264").image,
+    Image.network("https://picsum.photos/id/1005/4912/3264").image
   ];
 
   late final _easyEmbeddedImageProvider = MultiImageProvider(_imageProviders);
@@ -60,9 +60,10 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 showImageViewer(
                     context,
-                    Image.network("https://picsum.photos/id/1001/5616/3744")
+                    Image.network("https://picsum.photos/id/1001/4912/3264")
                         .image,
-                    swipeDismissible: true);
+                    swipeDismissible: true,
+                    doubleTapZoomable: true);
               }),
           ElevatedButton(
               child: const Text("Show Multiple Images (Simple)"),
@@ -70,17 +71,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 MultiImageProvider multiImageProvider =
                     MultiImageProvider(_imageProviders);
                 showImageViewerPager(context, multiImageProvider,
-                    swipeDismissible: true);
+                    swipeDismissible: true,
+                    doubleTapZoomable: true);
               }),
           ElevatedButton(
               child: const Text("Show Multiple Images (Custom)"),
               onPressed: () {
                 CustomImageProvider customImageProvider = CustomImageProvider(
                     imageUrls: [
-                      "https://picsum.photos/id/1001/5616/3744",
+                      "https://picsum.photos/id/1001/4912/3264",
                       "https://picsum.photos/id/1003/1181/1772",
-                      "https://picsum.photos/id/1004/5616/3744",
-                      "https://picsum.photos/id/1005/5760/3840"
+                      "https://picsum.photos/id/1004/4912/3264",
+                      "https://picsum.photos/id/1005/4912/3264"
                     ].toList(),
                     initialIndex: 2);
                 showImageViewerPager(context, customImageProvider,
