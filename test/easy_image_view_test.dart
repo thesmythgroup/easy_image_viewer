@@ -7,7 +7,8 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   group('EasyImageView', () {
-    testWidgets('should have an image and a scale', (WidgetTester tester) async {
+    testWidgets('should have an image and a scale',
+        (WidgetTester tester) async {
       ImageProvider? imageProvider;
 
       await tester.runAsync(() async {
@@ -16,13 +17,15 @@ void main() {
 
       Widget testWidget = MediaQuery(
           data: const MediaQueryData(size: Size(600, 800)),
-          child: EasyImageView(imageProvider: imageProvider!, minScale: 0.5, maxScale: 6.0));
+          child: EasyImageView(
+              imageProvider: imageProvider!, minScale: 0.5, maxScale: 6.0));
 
       await tester.pumpWidget(testWidget);
 
       // Create the Finders.
       final sizedBoxFinder = find.byKey(const Key('easy_image_sized_box'));
-      final interactiveViewFinder = find.byKey(const Key('easy_image_interactive_viewer'));
+      final interactiveViewFinder =
+          find.byKey(const Key('easy_image_interactive_viewer'));
       final imageFinder = find.image(imageProvider!);
 
       // Check existence
@@ -34,12 +37,15 @@ void main() {
       SizedBox sizedBox = tester.firstWidget(sizedBoxFinder);
       expect(sizedBox.width, double.infinity);
       expect(sizedBox.height, double.infinity);
-      InteractiveViewer interactiveViewer = tester.firstWidget(interactiveViewFinder);
+      InteractiveViewer interactiveViewer =
+          tester.firstWidget(interactiveViewFinder);
       expect(interactiveViewer.minScale, 0.5);
       expect(interactiveViewer.maxScale, 6.0);
     });
 
-    testWidgets('should invoke the onScaleChanged callback when pinching out (doubleTapZoomable false)', (WidgetTester tester) async {
+    testWidgets(
+        'should invoke the onScaleChanged callback when pinching out (doubleTapZoomable false)',
+        (WidgetTester tester) async {
       ImageProvider? imageProvider;
 
       double lastScale = 1.0;
@@ -86,7 +92,9 @@ void main() {
       expect(lastScale, greaterThan(1));
     });
 
-    testWidgets('should invoke the onScaleChanged callback when pinching out (doubleTapZoomable true)', (WidgetTester tester) async {
+    testWidgets(
+        'should invoke the onScaleChanged callback when pinching out (doubleTapZoomable true)',
+        (WidgetTester tester) async {
       ImageProvider? imageProvider;
 
       double lastScale = 1.0;
@@ -137,8 +145,9 @@ void main() {
       expect(lastScale, greaterThan(1));
     });
 
-
-  testWidgets('should invoke the onScaleChanged callback when double tapping to zoom', (WidgetTester tester) async {
+    testWidgets(
+        'should invoke the onScaleChanged callback when double tapping to zoom',
+        (WidgetTester tester) async {
       ImageProvider? imageProvider;
 
       double lastScale = 1.0;
