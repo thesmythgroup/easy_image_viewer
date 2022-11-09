@@ -71,8 +71,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 MultiImageProvider multiImageProvider =
                     MultiImageProvider(_imageProviders);
                 showImageViewerPager(context, multiImageProvider,
-                    swipeDismissible: true,
-                    doubleTapZoomable: true);
+                    swipeDismissible: true, doubleTapZoomable: true);
               }),
           ElevatedButton(
               child: const Text("Show Multiple Images (Custom)"),
