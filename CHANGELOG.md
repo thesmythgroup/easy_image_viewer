@@ -1,5 +1,9 @@
 # EasyImageViewer Changelog
 
+## 1.2.1
+
+- Update Dart to `>=2.12.0 <4.0.0`.
+
 ## 1.2.0
 
 - Add option to "double tap to zoom" by setting `doubleTapZoomable` to `true` [GH-24](https://github.com/thesmythgroup/easy_image_viewer/issues/24). Thank you to [Tony](https://github.com/nne998) of [lookingpet](https://github.com/lookingpet/easy_image_viewer) for the initial implementation.

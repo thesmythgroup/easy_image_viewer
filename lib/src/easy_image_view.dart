@@ -30,7 +30,7 @@ class EasyImageView extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _EasyImageViewState createState() => _EasyImageViewState();
+  State<EasyImageView> createState() => _EasyImageViewState();
 }
 
 class _EasyImageViewState extends State<EasyImageView>

@@ -34,7 +34,7 @@ class EasyImageViewPager extends StatefulWidget {
       : super(key: key);
 
   @override
-  _EasyImageViewPagerState createState() => _EasyImageViewPagerState();
+  State<EasyImageViewPager> createState() => _EasyImageViewPagerState();
 }
 
 class _EasyImageViewPagerState extends State<EasyImageViewPager> {
