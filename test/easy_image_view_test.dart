@@ -17,8 +17,8 @@ void main() {
 
       Widget testWidget = MediaQuery(
           data: const MediaQueryData(size: Size(600, 800)),
-          child: EasyImageView(
-              imageProvider: imageProvider!, minScale: 0.5, maxScale: 6.0));
+          child: EasyImageView.provider(
+              imageProvider!, minScale: 0.5, maxScale: 6.0));
 
       await tester.pumpWidget(testWidget);
 
@@ -56,8 +56,8 @@ void main() {
 
       Widget testWidget = MediaQuery(
           data: const MediaQueryData(size: Size(600, 800)),
-          child: EasyImageView(
-              imageProvider: imageProvider!,
+          child: EasyImageView.provider(
+              imageProvider!,
               minScale: 0.5,
               maxScale: 6.0,
               onScaleChanged: (scale) {
@@ -105,8 +105,8 @@ void main() {
 
       Widget testWidget = MediaQuery(
           data: const MediaQueryData(size: Size(600, 800)),
-          child: EasyImageView(
-              imageProvider: imageProvider!,
+          child: EasyImageView.provider(
+              imageProvider!,
               minScale: 0.5,
               maxScale: 6.0,
               doubleTapZoomable: true,
@@ -158,8 +158,8 @@ void main() {
 
       Widget testWidget = MediaQuery(
           data: const MediaQueryData(size: Size(600, 800)),
-          child: EasyImageView(
-              imageProvider: imageProvider!,
+          child: EasyImageView.provider(
+              imageProvider!,
               minScale: 0.5,
               maxScale: 6.0,
               doubleTapZoomable: true,

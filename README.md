@@ -31,10 +31,10 @@ Show a bunch of images:
 
 ```dart
 MultiImageProvider multiImageProvider = MultiImageProvider([
-  Image.network("https://picsum.photos/id/1001/5616/3744").image,
-  Image.network("https://picsum.photos/id/1003/1181/1772").image,
-  Image.network("https://picsum.photos/id/1004/5616/3744").image,
-  Image.network("https://picsum.photos/id/1005/5760/3840").image
+  const NetworkImage("https://picsum.photos/id/1001/4912/3264"),
+  const NetworkImage("https://picsum.photos/id/1003/1181/1772"),
+  const NetworkImage("https://picsum.photos/id/1004/4912/3264"),
+  const NetworkImage("https://picsum.photos/id/1005/4912/3264")
 ]);
 
 showImageViewerPager(context, multiImageProvider, onPageChanged: (page) {

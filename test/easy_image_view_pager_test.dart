@@ -53,7 +53,7 @@ void main() {
       PageView pageView = tester.firstWidget(pageViewFinder);
       expect(pageView.controller, pageController);
       EasyImageView easyImageView = tester.firstWidget(easyImageViewFinder);
-      expect(easyImageView.imageProvider, imageProviders.first);
+      expect((easyImageView.imageWidget as Image).image, imageProviders.first);
     });
   });
 }
