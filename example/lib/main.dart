@@ -1,4 +1,5 @@
 import 'package:easy_image_viewer/easy_image_viewer.dart';
+import 'package:easy_image_viewer_example/async_demo_page.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(const MyApp());
@@ -91,6 +92,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   // print("Dismissed while on page $page");
                 });
               }),
+          ElevatedButton(
+              child: const Text("Async Demo (FutureBuilder)"),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const AsyncDemoPage()),
+                );
+              }),
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height / 2.0,
@@ -121,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
                         curve: _kCurve);
                   }),
             ],
-          )
+          ),
         ],
       )),
     );
