@@ -61,8 +61,20 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 showImageViewer(
                     context,
+                    
                     Image.network("https://picsum.photos/id/1001/4912/3264")
                         .image,
+                         closeWidget: Container(
+                  clipBehavior: Clip.hardEdge,
+                  padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(10),
+                  decoration:  BoxDecoration(
+                   color: Colors.red.withOpacity(0.5),
+                   shape: BoxShape.circle
+                  ),
+                  child: const Icon(Icons.close, color: Colors.white,),
+                ),
+                        
                     swipeDismissible: true,
                     doubleTapZoomable: true);
               }),
@@ -72,6 +84,16 @@ class _MyHomePageState extends State<MyHomePage> {
                 MultiImageProvider multiImageProvider =
                     MultiImageProvider(_imageProviders);
                 showImageViewerPager(context, multiImageProvider,
+                closeWidget: Container(
+                  clipBehavior: Clip.hardEdge,
+                  padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(10),
+                  decoration:  BoxDecoration(
+                   color: Colors.red.withOpacity(0.5),
+                   shape: BoxShape.circle
+                  ),
+                  child: const Icon(Icons.close, color: Colors.white,),
+                ),
                     swipeDismissible: true, doubleTapZoomable: true);
               }),
           ElevatedButton(
@@ -86,6 +108,16 @@ class _MyHomePageState extends State<MyHomePage> {
                     ].toList(),
                     initialIndex: 2);
                 showImageViewerPager(context, customImageProvider,
+                closeWidget: Container(
+                  clipBehavior: Clip.hardEdge,
+                  padding: const EdgeInsets.all(5),
+                  margin: const EdgeInsets.all(10),
+                  decoration:  BoxDecoration(
+                   color: Colors.red.withOpacity(0.5),
+                   shape: BoxShape.circle
+                  ),
+                  child: const Icon(Icons.close, color: Colors.white,),
+                ),
                     onPageChanged: (page) {
                   // print("Page changed to $page");
                 }, onViewerDismissed: (page) {
