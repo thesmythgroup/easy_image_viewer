@@ -22,7 +22,7 @@ void main() {
           Colors.teal
         ];
         imageProviders =
-            await Future.wait(colors.map((color) => createColorImage(color)));
+            await Future.wait(colors.map((color) => createColorImageProvider(color)));
       });
 
       final multiImageProvider = MultiImageProvider(imageProviders);

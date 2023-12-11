@@ -13,7 +13,7 @@ void main() {
       BuildContext context = await createTestBuildContext(tester);
 
       await tester.runAsync(() async {
-        redImageProvider = await createColorImage(Colors.red);
+        redImageProvider = await createColorImageProvider(Colors.red);
       });
 
       final provider = SingleImageProvider(redImageProvider!);
@@ -24,6 +24,28 @@ void main() {
       expect(provider.imageBuilder(context, 0), redImageProvider);
       expect(() => provider.imageBuilder(context, -1), throwsArgumentError);
       expect(() => provider.imageBuilder(context, 1), throwsArgumentError);
+    });
+
+    testWidgets('should return the correct image widget per index',
+        (WidgetTester tester) async {
+      ImageProvider? redImageProvider;
+      BuildContext context = await createTestBuildContext(tester);
+
+      await tester.runAsync(() async {
+        redImageProvider = await createColorImageProvider(Colors.red);
+      });
+
+      final provider = SingleImageProvider(redImageProvider!);
+
+      expect(provider.imageCount, 1);
+      expect(provider.initialIndex, 0);
+
+      final imageWidget = provider.imageWidgetBuilder(context, 0);
+      expect(imageWidget is Image, true);
+      expect((imageWidget as Image).image, redImageProvider);
+
+      expect(() => provider.imageWidgetBuilder(context, -1), throwsArgumentError);
+      expect(() => provider.imageWidgetBuilder(context, 1), throwsArgumentError);
     });
   });
 }

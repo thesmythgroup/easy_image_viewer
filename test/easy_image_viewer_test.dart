@@ -14,7 +14,7 @@ void main() {
       bool dismissed = false;
 
       await tester.runAsync(() async {
-        redImageProvider = await createColorImage(Colors.red);
+        redImageProvider = await createColorImageProvider(Colors.red);
       });
 
       final dialogFuture =
@@ -46,7 +46,7 @@ void main() {
       final context = await createTestBuildContext(tester);
 
       await tester.runAsync(() async {
-        imageProvider = await createColorImage(Colors.amber);
+        imageProvider = await createColorImageProvider(Colors.amber);
       });
 
       showImageViewer(context, imageProvider,
@@ -83,7 +83,7 @@ void main() {
           Colors.teal
         ];
         imageProviders =
-            await Future.wait(colors.map((color) => createColorImage(color)));
+            await Future.wait(colors.map((color) => createColorImageProvider(color)));
       });
 
       final multiImageProvider = MultiImageProvider(imageProviders);
@@ -140,7 +140,7 @@ void main() {
           Colors.teal
         ];
         imageProviders =
-            await Future.wait(colors.map((color) => createColorImage(color)));
+            await Future.wait(colors.map((color) => createColorImageProvider(color)));
       });
 
       final multiImageProvider = MultiImageProvider(imageProviders);
@@ -184,7 +184,7 @@ void main() {
           Colors.teal
         ];
         imageProviders =
-            await Future.wait(colors.map((color) => createColorImage(color)));
+            await Future.wait(colors.map((color) => createColorImageProvider(color)));
       });
 
       final multiImageProvider =
@@ -227,7 +227,7 @@ void main() {
       await tester.runAsync(() async {
         const colors = [Colors.amber];
         imageProviders =
-            await Future.wait(colors.map((color) => createColorImage(color)));
+            await Future.wait(colors.map((color) => createColorImageProvider(color)));
       });
 
       final multiImageProvider = MultiImageProvider(imageProviders);

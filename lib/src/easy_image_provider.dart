@@ -8,6 +8,12 @@ abstract class EasyImageProvider {
   /// Total count of images
   int get imageCount;
 
+  /// Animation duration for the image transition (fade in after loading)
+  Duration animationDuration = const Duration(milliseconds: 300);
+
+  /// Animation curve for the image transition (fade in after loading)
+  Curve animationCurve = Curves.easeOut;
+
   /// Returns the image for the given [index].
   ImageProvider imageBuilder(BuildContext context, int index);
 
@@ -21,25 +27,41 @@ abstract class EasyImageProvider {
         }
         return AnimatedOpacity(
           opacity: frame == null ? 0 : 1,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
+          duration: animationDuration,  
+          curve: animationCurve,
           child: child,
         );
       },
       loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+        bool shouldShowLoading = loadingProgress != null;
         return IndexedStack(
-          index: loadingProgress == null ? 0 : 1,
+          index: shouldShowLoading ? 1 : 0,
           alignment: Alignment.center,
           children: <Widget>[
             child,
-            CircularProgressIndicator(
+            progressIndicatorWidgetBuilder(
+              context,
+              index,
               value: loadingProgress?.expectedTotalBytes != null
                   ? loadingProgress!.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                  : null,
+                  : shouldShowLoading ? null : 0.0,
             ),
           ],
         );
       },
+    );
+  }
+
+  /// Returns the progress indicator widget for the given [index].
+  /// The default implementation returns a [CircularProgressIndicator].
+  /// Override this method to customize the progress indicator.
+  /// The [value] parameter is the progress value between 0.0 and 1.0.
+  /// If [value] is null, the progress indicator is in indeterminate mode.
+  /// The [index] parameter is the index of the image being loaded.
+  /// The [context] parameter is the build context.
+  Widget progressIndicatorWidgetBuilder(BuildContext context, int index, {double? value}) {
+    return CircularProgressIndicator(
+      value: value,
     );
   }
 }

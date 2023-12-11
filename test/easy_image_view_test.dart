@@ -1,9 +1,14 @@
-import 'package:easy_image_viewer/src/easy_image_view.dart';
+import 'dart:ui' as ui;
+
+import 'package:easy_image_viewer/easy_image_viewer.dart';
 
 import 'support/test_helper.dart';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+
+import 'support/test_image_provider.dart';
+import 'support/test_image_stream_completer.dart';
 
 void main() {
   group('EasyImageView', () {
@@ -12,7 +17,7 @@ void main() {
       ImageProvider? imageProvider;
 
       await tester.runAsync(() async {
-        imageProvider = await createColorImage(Colors.green);
+        imageProvider = await createColorImageProvider(Colors.green);
       });
 
       Widget testWidget = MediaQuery(
@@ -51,7 +56,7 @@ void main() {
       double lastScale = 1.0;
 
       await tester.runAsync(() async {
-        imageProvider = await createColorImage(Colors.green);
+        imageProvider = await createColorImageProvider(Colors.green);
       });
 
       Widget testWidget = MediaQuery(
@@ -100,7 +105,7 @@ void main() {
       double lastScale = 1.0;
 
       await tester.runAsync(() async {
-        imageProvider = await createColorImage(Colors.green);
+        imageProvider = await createColorImageProvider(Colors.green);
       });
 
       Widget testWidget = MediaQuery(
@@ -153,7 +158,7 @@ void main() {
       double lastScale = 1.0;
 
       await tester.runAsync(() async {
-        imageProvider = await createColorImage(Colors.green);
+        imageProvider = await createColorImageProvider(Colors.green);
       });
 
       Widget testWidget = MediaQuery(
@@ -188,6 +193,57 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(lastScale, 2.0);
+    });
+
+    testWidgets('should show progress indicator while loading', (WidgetTester tester) async {
+      final TestImageStreamCompleter streamCompleter = TestImageStreamCompleter();
+      final TestImageProvider imageProvider = TestImageProvider(streamCompleter: streamCompleter);
+      ui.Image? finalImage;
+
+      BuildContext context = await createTestBuildContext(tester);
+
+      final provider = SingleImageProvider(imageProvider);
+
+      await tester.runAsync(() async {
+        finalImage = await createColorImage(Colors.green);
+      });
+
+      streamCompleter.setData(chunkEvent: const ImageChunkEvent(cumulativeBytesLoaded: 1, expectedTotalBytes: 100));
+      
+      Widget testWidget = MediaQuery(
+          data: const MediaQueryData(size: Size(600, 800)),
+          child: Directionality(
+              textDirection: TextDirection.ltr,
+              child: EasyImageView(imageWidget: provider.imageWidgetBuilder(context, 0))));
+
+      await tester.pumpWidget(testWidget);
+
+      // Image widget, but no image yet
+      final imageFinder = find.byType(RawImage);
+      expect(imageFinder, findsOneWidget); // we use a stack, so it's always there, but behind the progress indicator
+      var imageWidget = tester.firstWidget(imageFinder) as RawImage;
+      expect(imageWidget.image, isNull); 
+
+      // Load 10% of the image
+      streamCompleter.setData(chunkEvent: const ImageChunkEvent(cumulativeBytesLoaded: 10, expectedTotalBytes: 100));
+      await tester.pump();
+
+      // Progress indicator
+      final progressFinder = find.byType(CircularProgressIndicator);
+      expect(progressFinder, findsOneWidget);
+      var progressWidget = tester.firstWidget(progressFinder) as CircularProgressIndicator;
+      expect(progressWidget.value, 0.1); // 10 / 100
+
+      // Load the rest of the image
+      streamCompleter.setData(chunkEvent: const ImageChunkEvent(cumulativeBytesLoaded: 100, expectedTotalBytes: 100));
+      await tester.pump();
+      
+      // Provide final image data
+      streamCompleter.setData(imageInfo: ImageInfo(image: finalImage!));
+      await tester.pump();
+      expect(imageFinder, findsOneWidget); // we use a stack, so it's always there, but behind the progress indicator
+      imageWidget = tester.firstWidget(imageFinder) as RawImage;
+      expect(imageWidget.image, isNotNull); 
     });
   });
 }

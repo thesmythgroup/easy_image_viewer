@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'EasyImageViewer Demo',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        progressIndicatorTheme: const ProgressIndicatorThemeData(color: Colors.green),
         primarySwatch: Colors.blue,
       ),
       home: const MyHomePage(title: 'EasyImageViewer Demo'),
@@ -100,6 +101,19 @@ class _MyHomePageState extends State<MyHomePage> {
                   MaterialPageRoute(builder: (context) => const AsyncDemoPage()),
                 );
               }),
+          ElevatedButton(
+              child: const Text("Custom Progress Indicator"),
+              onPressed: () {
+                CustomImageWidgetProvider customImageProvider = CustomImageWidgetProvider(
+                    imageUrls: [
+                      "https://picsum.photos/id/1001/4912/3264",
+                      "https://picsum.photos/id/1003/1181/1772",
+                      "https://picsum.photos/id/1004/4912/3264",
+                      "https://picsum.photos/id/1005/4912/3264"
+                    ].toList(),
+                );
+                showImageViewerPager(context, customImageProvider);
+              }),
           SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height / 2.0,
@@ -148,6 +162,45 @@ class CustomImageProvider extends EasyImageProvider {
   @override
   ImageProvider<Object> imageBuilder(BuildContext context, int index) {
     return NetworkImage(imageUrls[index]);
+  }
+
+  @override
+  int get imageCount => imageUrls.length;
+}
+
+class CustomImageWidgetProvider extends EasyImageProvider {
+  @override
+  final int initialIndex;
+  final List<String> imageUrls;
+
+  CustomImageWidgetProvider({required this.imageUrls, this.initialIndex = 0})
+      : super();
+
+  @override
+  ImageProvider<Object> imageBuilder(BuildContext context, int index) {
+    return NetworkImage(imageUrls[index]);
+  }
+
+  @override
+  Widget progressIndicatorWidgetBuilder(BuildContext context, int index, {double? value}) {
+    // Create a custom linear progress indicator
+    // with a label showing the progress value
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        LinearProgressIndicator(
+          value: value,
+        ),
+        Text(
+          "${(value ?? 0) * 100}%",
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        )
+      ],
+    );
   }
 
   @override

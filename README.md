@@ -15,6 +15,7 @@ An easy way to display images in a full-screen dialog, including pinch & zoom.
 * Optionally allow "swipe down to dismiss" by passing in `swipeDismissible: true`
 * No dependencies besides Flutter
 * Callbacks for `onPageChanged` and `onViewerDismissed`
+* Fully customizable loading/progress indicator
 
 ## Usage
 
@@ -87,6 +88,60 @@ showImageViewerPager(context, productsImageProvider, onPageChanged: (page) {
   print("dismissed while on page $page");
 });
 ```
+
+## Customizing Progress Indicator and Image Widget
+
+You can subclass `EasyImageProvider` and override `progressIndicatorWidgetBuilder`. That way you can
+provide your own progress indicator when an image is loading. Here's an example for using a
+linear progress indicator with a label:
+
+```dart
+class CustomImageWidgetProvider extends EasyImageProvider {
+  @override
+  final int initialIndex;
+  final List<String> imageUrls;
+
+  CustomImageWidgetProvider({required this.imageUrls, this.initialIndex = 0})
+      : super();
+
+  @override
+  ImageProvider<Object> imageBuilder(BuildContext context, int index) {
+    return NetworkImage(imageUrls[index]);
+  }
+
+  @override
+  Widget progressIndicatorWidgetBuilder(BuildContext context, int index, {double? value}) {
+    // Create a custom linear progress indicator
+    // with a label showing the progress value
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        LinearProgressIndicator(
+          value: value,
+        ),
+        Text(
+          "${(value ?? 0) * 100}%",
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 20,
+          ),
+        )
+      ],
+    );
+  }
+
+  @override
+  int get imageCount => imageUrls.length;
+}
+```
+
+You can also adjust `animationDuration` and `animationCurve` for the transition that is used
+to fade in the loaded image.
+
+Finally, you can even override the `imageWidgetBuilder` method and completely customize the
+appearance of each individual image. Keep in mind that it should be an "image-like" widget 
+since it will be treated as such: the user can pinch&zoom the returned widget etc.
 
 ## How to release a new version on pub.dev
 1. Update the version number in `pubspec.yaml`.
