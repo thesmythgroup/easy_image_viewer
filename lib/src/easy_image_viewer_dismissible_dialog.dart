@@ -77,10 +77,10 @@ class _EasyImageViewerDismissibleDialogState
 
   @override
   Widget build(BuildContext context) {
-    final popScopeAwareDialog = WillPopScope(
-        onWillPop: () async {
+    final popScopeAwareDialog = PopScope(
+        canPop: true,
+        onPopInvoked: (bool didPop) {
           _handleDismissal();
-          return true;
         },
         key: _popScopeKey,
         child: Dialog(
