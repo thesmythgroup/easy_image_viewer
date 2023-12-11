@@ -21,18 +21,20 @@ abstract class EasyImageProvider {
   Widget imageWidgetBuilder(BuildContext context, int index) {
     return Image(
       image: imageBuilder(context, index),
-      frameBuilder: (BuildContext context, Widget child, int? frame, bool wasSynchronouslyLoaded) {
+      frameBuilder: (BuildContext context, Widget child, int? frame,
+          bool wasSynchronouslyLoaded) {
         if (wasSynchronouslyLoaded) {
           return child;
         }
         return AnimatedOpacity(
           opacity: frame == null ? 0 : 1,
-          duration: animationDuration,  
+          duration: animationDuration,
           curve: animationCurve,
           child: child,
         );
       },
-      loadingBuilder: (BuildContext context, Widget child, ImageChunkEvent? loadingProgress) {
+      loadingBuilder: (BuildContext context, Widget child,
+          ImageChunkEvent? loadingProgress) {
         bool shouldShowLoading = loadingProgress != null;
         return IndexedStack(
           index: shouldShowLoading ? 1 : 0,
@@ -43,8 +45,11 @@ abstract class EasyImageProvider {
               context,
               index,
               value: loadingProgress?.expectedTotalBytes != null
-                  ? loadingProgress!.cumulativeBytesLoaded / loadingProgress.expectedTotalBytes!
-                  : shouldShowLoading ? null : 0.0,
+                  ? loadingProgress!.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : shouldShowLoading
+                      ? null
+                      : 0.0,
             ),
           ],
         );
@@ -59,7 +64,8 @@ abstract class EasyImageProvider {
   /// If [value] is null, the progress indicator is in indeterminate mode.
   /// The [index] parameter is the index of the image being loaded.
   /// The [context] parameter is the build context.
-  Widget progressIndicatorWidgetBuilder(BuildContext context, int index, {double? value}) {
+  Widget progressIndicatorWidgetBuilder(BuildContext context, int index,
+      {double? value}) {
     return CircularProgressIndicator(
       value: value,
     );
