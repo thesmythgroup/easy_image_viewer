@@ -114,9 +114,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
                 showImageViewerPager(context, customImageProvider);
               }),
+          SizedBox( // Tiny image just to test the EasyImageView constructor
+            width: MediaQuery.of(context).size.width,
+            height: 56,
+            child: EasyImageView(
+                imageProvider: Image.network("https://picsum.photos/id/1001/4912/3264").image)
+          ),
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 2.0,
+            height: MediaQuery.of(context).size.height / 2.4,
             child: EasyImageViewPager(
                 easyImageProvider: _easyEmbeddedImageProvider,
                 pageController: _pageController),
