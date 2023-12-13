@@ -1,5 +1,9 @@
 # EasyImageViewer Changelog
 
+## 1.3.1
+
+- Revert breaking constructor change introduced in 1.3.0. This changes the default `EasyImageView` constructor back to accepting an `ImageProvider` instead of a `Widget`. Constructing an `EasyImageView` with a widget can be done by using a new named constructor: `EasyImageView.imageWidget`.
+
 ## 1.3.0
 
 - Update Flutter to `3.16.3`

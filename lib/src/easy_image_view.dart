@@ -19,15 +19,16 @@ class EasyImageView extends StatefulWidget {
   final void Function(double)? onScaleChanged;
 
   /// Create a new instance that accepts an [ImageProvider]
-  EasyImageView.provider(ImageProvider imageProvider,
-      {Key? key,
-      double minScale = 1.0,
-      double maxScale = 5.0,
-      bool doubleTapZoomable = false,
-      void Function(double)? onScaleChanged})
-      : this(
+  EasyImageView({
+    Key? key,
+    required ImageProvider imageProvider,
+    double minScale = 1.0,
+    double maxScale = 5.0,
+    bool doubleTapZoomable = false,
+    void Function(double)? onScaleChanged,
+  }) : this.imageWidget(
+          Image(image: imageProvider),
           key: key,
-          imageWidget: Image(image: imageProvider),
           minScale: minScale,
           maxScale: maxScale,
           doubleTapZoomable: doubleTapZoomable,
@@ -36,9 +37,9 @@ class EasyImageView extends StatefulWidget {
 
   /// Create a new instance
   /// The optional [doubleTapZoomable] boolean defaults to false and allows double tap to zoom.
-  const EasyImageView({
+  const EasyImageView.imageWidget(
+    this.imageWidget, {
     Key? key,
-    required this.imageWidget,
     this.minScale = 1.0,
     this.maxScale = 5.0,
     this.doubleTapZoomable = false,
