@@ -1,5 +1,8 @@
 # EasyImageViewer Changelog
 
+## 1.3.2
+- Revert change from `WillPopScope` to `PopScope` introduced in 1.3.0. It would require bumping up the minimum Flutter version. We will re-introduce that change when in the next major version.
+
 ## 1.3.1
 
 - Revert breaking constructor change introduced in 1.3.0. This changes the default `EasyImageView` constructor back to accepting an `ImageProvider` instead of a `Widget`. Constructing an `EasyImageView` with a widget can be done by using a new named constructor: `EasyImageView.imageWidget`.
