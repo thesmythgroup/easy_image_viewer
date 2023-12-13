@@ -2,8 +2,18 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+/// Helper method to create a sample image provider
+Future<ImageProvider> createColorImageProvider(Color color,
+    {double scale = 1.0, int width = 500, int height = 500}) async {
+  
+  final ui.Image image = await createColorImage(color,
+      scale: scale, width: width, height: height);
+  final imageData = await image.toByteData(format: ui.ImageByteFormat.png);
+  return MemoryImage(imageData!.buffer.asUint8List());
+}
+
 /// Helper method to create a sample image
-Future<ImageProvider> createColorImage(Color color,
+Future<ui.Image> createColorImage(Color color,
     {double scale = 1.0, int width = 500, int height = 500}) async {
   final recorder = ui.PictureRecorder();
   final canvas = Canvas(recorder);
@@ -15,9 +25,7 @@ Future<ImageProvider> createColorImage(Color color,
 
   canvas.drawRect(
       Rect.fromLTWH(0, 0, width.toDouble(), height.toDouble()), paint);
-  final ui.Image image = await recorder.endRecording().toImage(width, height);
-  final imageData = await image.toByteData(format: ui.ImageByteFormat.png);
-  return MemoryImage(imageData!.buffer.asUint8List());
+  return recorder.endRecording().toImage(width, height);
 }
 
 /// Helper method to create a BuildContext

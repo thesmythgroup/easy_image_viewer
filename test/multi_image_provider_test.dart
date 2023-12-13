@@ -9,8 +9,8 @@ void main() {
   group('MultiImageProvider', () {
     test('should require a valid initialIndex', () async {
       final imageProviders = [
-        await createColorImage(Colors.red),
-        await createColorImage(Colors.green)
+        await createColorImageProvider(Colors.red),
+        await createColorImageProvider(Colors.green)
       ];
 
       expect(() => MultiImageProvider(imageProviders, initialIndex: -1),
@@ -32,8 +32,8 @@ void main() {
       BuildContext context = await createTestBuildContext(tester);
 
       await tester.runAsync(() async {
-        redImageProvider = await createColorImage(Colors.red);
-        greenImageProvider = await createColorImage(Colors.green);
+        redImageProvider = await createColorImageProvider(Colors.red);
+        greenImageProvider = await createColorImageProvider(Colors.green);
       });
 
       final imageProviders = [redImageProvider!, greenImageProvider!];

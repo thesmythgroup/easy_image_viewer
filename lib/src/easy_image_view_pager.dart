@@ -51,10 +51,10 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
       controller: widget.pageController,
       scrollBehavior: MouseEnabledScrollBehavior(),
       itemBuilder: (context, index) {
-        final image = widget.easyImageProvider.imageBuilder(context, index);
         return EasyImageView(
           key: Key('easy_image_view_$index'),
-          imageProvider: image,
+          imageWidget:
+              widget.easyImageProvider.imageWidgetBuilder(context, index),
           doubleTapZoomable: widget.doubleTapZoomable,
           onScaleChanged: (scale) {
             if (widget.onScaleChanged != null) {

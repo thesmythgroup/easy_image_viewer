@@ -1,5 +1,10 @@
 # EasyImageViewer Changelog
 
+## 1.3.0
+
+- Update Flutter to `3.16.3`
+- Add loading progress indicator out of the box with options to fully customize both the widget used to display progress as well as the widget used to display an image (Flutter's `Image` by default).
+
 ## 1.2.1
 
 - Update Dart to `>=2.12.0 <4.0.0`.
