@@ -143,6 +143,44 @@ Finally, you can even override the `imageWidgetBuilder` method and completely cu
 appearance of each individual image. Keep in mind that it should be an "image-like" widget 
 since it will be treated as such: the user can pinch&zoom the returned widget etc.
 
+## Customizing Error Widget
+
+You can subclass `EasyImageProvider` and override `errorWidgetBuilder`. That way you can
+provide your own error widget when an image fails to load. Here's an example that simply displays a centered red error message:
+
+```dart
+class CustomImageProvider extends EasyImageProvider {
+  @override
+  final int initialIndex;
+  final List<String> imageUrls;
+
+  CustomImageProvider({required this.imageUrls, this.initialIndex = 0})
+      : super();
+
+  @override
+  ImageProvider<Object> imageBuilder(BuildContext context, int index) {
+    return NetworkImage(imageUrls[index]);
+  }
+
+  @override
+  Widget errorWidgetBuilder(BuildContext context, int index, Object error, StackTrace? stackTrace) {
+    return const Center(
+      child: Text(
+        "Error loading image",
+        style: TextStyle(fontSize: 50, color: Colors.red),
+      ),
+    );
+  }
+
+  @override
+  int get imageCount => imageUrls.length;
+}
+```
+
+The default error widget shows a red `Icons.broken_image` and '🖼️💥🚫' (image, boom, no entry) as a message underneath.
+
+![Default Error Widget](https://github.com/thesmythgroup/easy_image_viewer/blob/main/demo_images/default-error-widget?raw=true "Default Error Widget")
+
 ## How to release a new version on pub.dev
 1. Update the version number in `pubspec.yaml`.
 2. Add an entry for the new version in `CHANGELOG.md`.

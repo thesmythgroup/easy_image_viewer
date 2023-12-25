@@ -54,6 +54,9 @@ abstract class EasyImageProvider {
           ],
         );
       },
+      errorBuilder: (context, error, stackTrace) {
+        return errorWidgetBuilder(context, index, error, stackTrace);
+      },
     );
   }
 
@@ -68,6 +71,34 @@ abstract class EasyImageProvider {
       {double? value}) {
     return CircularProgressIndicator(
       value: value,
+    );
+  }
+
+  /// Builds the error widget for the image at the specified [index].
+  ///
+  /// The [context] parameter is the build context.
+  /// The [error] parameter is the error object that occurred while loading the image.
+  /// The [stackTrace] parameter is the stack trace associated with the error.
+  Widget errorWidgetBuilder(
+      BuildContext context, int index, Object error, StackTrace? stackTrace) {
+    return const Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Icon(
+            Icons.broken_image,
+            color: Colors.red,
+            size: 120.0,
+          ),
+          Text(
+            '🖼️💥🚫', // image, boom, no entry
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontSize: 30.0,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

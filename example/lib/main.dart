@@ -114,6 +114,18 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
                 showImageViewerPager(context, customImageProvider);
               }),
+          ElevatedButton(
+              child: const Text("Simulate Error"),
+              onPressed: () {
+                showImageViewer(
+                    context,
+                    // Notice that this will cause an "unhandled exception" although an error handler is defined.
+                    // This is a known Flutter issue, see https://github.com/flutter/flutter/issues/81931
+                    Image.network("https://thisisdefinitelynotavalidurl.com")
+                        .image,
+                    swipeDismissible: true,
+                    doubleTapZoomable: true);
+              }),
           SizedBox( // Tiny image just to test the EasyImageView constructor
             width: MediaQuery.of(context).size.width,
             height: 56,

@@ -1,5 +1,8 @@
 # EasyImageViewer Changelog
 
+## 1.4.0
+- Add a default error widget that is shown when an image fails to load. The default error widget shows a red `Icons.broken_image` and '🖼️💥🚫' (image, boom, no entry) as a message underneath. You can customize the error widget by subclassing `EasyImageProvider` and overriding `errorWidgetBuilder`. See the README for an example.
+
 ## 1.3.2
 - Revert change from `WillPopScope` to `PopScope` introduced in 1.3.0. It would require bumping up the minimum Flutter version. We will re-introduce that change when in the next major version.
 
