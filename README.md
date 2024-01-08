@@ -179,7 +179,7 @@ class CustomImageProvider extends EasyImageProvider {
 
 The default error widget shows a red `Icons.broken_image` and '🖼️💥🚫' (image, boom, no entry) as a message underneath.
 
-![Default Error Widget](https://github.com/thesmythgroup/easy_image_viewer/blob/main/demo_images/default-error-widget?raw=true "Default Error Widget")
+![Default Error Widget](https://github.com/thesmythgroup/easy_image_viewer/blob/main/demo_images/default-error-widget.png?raw=true "Default Error Widget")
 
 ## How to release a new version on pub.dev
 1. Update the version number in `pubspec.yaml`.
