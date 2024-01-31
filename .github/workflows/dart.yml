@@ -12,8 +12,11 @@ on:
     branches: [ main ]
 
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        flutter-version: ['any', '3.7.0', '2.5.0']  # Specify versions here
 
     steps:
       - uses: actions/checkout@v2
@@ -23,6 +26,9 @@ jobs:
       - uses: subosito/flutter-action@v1
         with:
           channel: 'stable'
+          flutter-version: ${{ matrix.flutter-version }}
+      - name: Print version
+        run: flutter --version
       - name: Install dependencies
         run: flutter pub get
       - name: Analyze project source
