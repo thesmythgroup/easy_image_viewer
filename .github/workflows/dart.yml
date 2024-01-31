@@ -16,7 +16,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        flutter-version: ['any', '3.7.0', '2.5.0']  # Specify versions here
+        flutter-version: ['any', '3.0.0', '3.7.0', '3.10.0']  # Specify versions here
 
     steps:
       - uses: actions/checkout@v2
