@@ -17,6 +17,10 @@ An easy way to display images in a full-screen dialog, including pinch & zoom.
 * Callbacks for `onPageChanged` and `onViewerDismissed`
 * Fully customizable loading/progress indicator
 
+## Requirements
+
+EasyImageViewer requires Flutter 3.7.0 and Dart 2.19.0 or higher.
+
 ## Usage
 
 Show a single image:
