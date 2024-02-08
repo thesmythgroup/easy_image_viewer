@@ -36,10 +36,19 @@ class TestImageProvider extends ImageProvider<Object> {
   }
 
   @override
-  ImageStreamCompleter loadImage(Object key, ImageDecoderCallback decode) {
+  // Remove once the minimum Flutter version is 3.16+
+  // ignore: deprecated_member_use
+  ImageStreamCompleter loadBuffer(Object key, DecoderBufferCallback decode) {
     _loadCallCount += 1;
     return _streamCompleter;
   }
+
+  // Use once the minimum Flutter version is 3.16+
+  // @override
+  // ImageStreamCompleter loadImage(Object key, ImageDecoderCallback decode) {
+  //   _loadCallCount += 1;
+  //   return _streamCompleter;
+  // }
 
   void complete(ui.Image image) {
     _completer.complete(ImageInfo(image: image));
