@@ -1,5 +1,8 @@
 # EasyImageViewer Changelog
 
+## 1.4.1
+- Clearly declare Flutter 3.7.0 and Dart 2.19.0 as the minimum supported versions. Fixes a "const Column" error when used with Flutter versions lower than 3.10.0 (see [GH-52](https://github.com/thesmythgroup/easy_image_viewer/issues/52)).
+
 ## 1.4.0
 - Add a default error widget that is shown when an image fails to load. The default error widget shows a red `Icons.broken_image` and '🖼️💥🚫' (image, boom, no entry) as a message underneath. You can customize the error widget by subclassing `EasyImageProvider` and overriding `errorWidgetBuilder`. See the README for an example.
 
