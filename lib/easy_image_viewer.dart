@@ -38,6 +38,7 @@ Future<Dialog?> showImageViewer(
     bool useSafeArea = false,
     bool swipeDismissible = false,
     bool doubleTapZoomable = false,
+    Widget? closeWidget,
     Color backgroundColor = _defaultBackgroundColor,
     String closeButtonTooltip = _defaultCloseButtonTooltip,
     Color closeButtonColor = _defaultCloseButtonColor}) {
@@ -49,6 +50,7 @@ Future<Dialog?> showImageViewer(
       swipeDismissible: swipeDismissible,
       doubleTapZoomable: doubleTapZoomable,
       backgroundColor: backgroundColor,
+      closeWidget: closeWidget,
       closeButtonTooltip: closeButtonTooltip,
       closeButtonColor: closeButtonColor);
 }
@@ -74,6 +76,7 @@ Future<Dialog?> showImageViewerPager(
     bool useSafeArea = false,
     bool swipeDismissible = false,
     bool doubleTapZoomable = false,
+    Widget? closeWidget,
     Color backgroundColor = _defaultBackgroundColor,
     String closeButtonTooltip = _defaultCloseButtonTooltip,
     Color closeButtonColor = _defaultCloseButtonColor}) {
@@ -95,6 +98,7 @@ Future<Dialog?> showImageViewerPager(
             doubleTapZoomable: doubleTapZoomable,
             backgroundColor: backgroundColor,
             closeButtonColor: closeButtonColor,
-            closeButtonTooltip: closeButtonTooltip);
+            closeWidget: closeWidget,
+            closeButtonTooltip: closeButtonTooltip,);
       });
 }
