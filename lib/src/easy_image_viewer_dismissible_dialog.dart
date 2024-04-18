@@ -19,6 +19,7 @@ class EasyImageViewerDismissibleDialog extends StatefulWidget {
   final Color backgroundColor;
   final String closeButtonTooltip;
   final Color closeButtonColor;
+  final bool infiniteScroll;
 
   /// Refer to [showImageViewerPager] for the arguments
   const EasyImageViewerDismissibleDialog(this.imageProvider,
@@ -29,6 +30,7 @@ class EasyImageViewerDismissibleDialog extends StatefulWidget {
       this.useSafeArea = false,
       this.swipeDismissible = false,
       this.doubleTapZoomable = false,
+      this.infiniteScroll = false,
       required this.backgroundColor,
       required this.closeButtonTooltip,
       required this.closeButtonColor})
@@ -60,7 +62,7 @@ class _EasyImageViewerDismissibleDialogState
         PageController(initialPage: widget.imageProvider.initialIndex);
     if (widget.onPageChanged != null) {
       _internalPageChangeListener = () {
-        widget.onPageChanged!(_pageController.page?.round() ?? 0);
+        widget.onPageChanged!(_getCurrentPage());
       };
       _pageController.addListener(_internalPageChangeListener!);
     }
@@ -100,6 +102,7 @@ class _EasyImageViewerDismissibleDialogState
                       easyImageProvider: widget.imageProvider,
                       pageController: _pageController,
                       doubleTapZoomable: widget.doubleTapZoomable,
+                      infiniteScroll: widget.infiniteScroll,
                       onScaleChanged: (scale) {
                         setState(() {
                           _dismissDirection = scale <= 1.0
@@ -145,7 +148,7 @@ class _EasyImageViewerDismissibleDialogState
   // through the "x" close button, or through swipe-to-dismiss.
   void _handleDismissal() {
     if (widget.onViewerDismissed != null) {
-      widget.onViewerDismissed!(_pageController.page?.round() ?? 0);
+      widget.onViewerDismissed!(_getCurrentPage());
     }
 
     if (widget.immersive) {
@@ -154,5 +157,16 @@ class _EasyImageViewerDismissibleDialogState
     if (_internalPageChangeListener != null) {
       _pageController.removeListener(_internalPageChangeListener!);
     }
+  }
+
+  // Returns the current page number.
+  // If the infiniteScroll true, the page number is calculated modulo the
+  // total number of images, effectively creating a looping carousel effect.
+  int _getCurrentPage() {
+    var currentPage = _pageController.page?.round() ?? 0;
+    if (widget.infiniteScroll) {
+      currentPage = currentPage % widget.imageProvider.imageCount;
+    }
+    return currentPage;
   }
 }

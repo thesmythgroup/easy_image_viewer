@@ -62,6 +62,7 @@ Future<Dialog?> showImageViewer(
 /// The optional [useSafeArea] boolean defaults to false and is passed to [showDialog].
 /// The optional [swipeDismissible] boolean defaults to false and allows swipe-down-to-dismiss.
 /// The optional [doubleTapZoomable] boolean defaults to false and allows double tap to zoom.
+/// The optional [infiniteScroll] boolean defaults to false and allows infinite scrolling.
 /// The [backgroundColor] defaults to black, but can be set to any other color.
 /// The [closeButtonTooltip] text is displayed when the user long-presses on the
 /// close button and is used for accessibility.
@@ -74,6 +75,7 @@ Future<Dialog?> showImageViewerPager(
     bool useSafeArea = false,
     bool swipeDismissible = false,
     bool doubleTapZoomable = false,
+    bool infiniteScroll = false,
     Color backgroundColor = _defaultBackgroundColor,
     String closeButtonTooltip = _defaultCloseButtonTooltip,
     Color closeButtonColor = _defaultCloseButtonColor}) {
@@ -93,6 +95,7 @@ Future<Dialog?> showImageViewerPager(
             useSafeArea: useSafeArea,
             swipeDismissible: swipeDismissible,
             doubleTapZoomable: doubleTapZoomable,
+            infiniteScroll: infiniteScroll,
             backgroundColor: backgroundColor,
             closeButtonColor: closeButtonColor,
             closeButtonTooltip: closeButtonTooltip);

@@ -17,6 +17,7 @@ class EasyImageViewPager extends StatefulWidget {
   final EasyImageProvider easyImageProvider;
   final PageController pageController;
   final bool doubleTapZoomable;
+  final bool infiniteScroll;
 
   /// Callback for when the scale has changed, only invoked at the end of
   /// an interaction.
@@ -30,7 +31,8 @@ class EasyImageViewPager extends StatefulWidget {
       required this.easyImageProvider,
       required this.pageController,
       this.doubleTapZoomable = false,
-      this.onScaleChanged})
+      this.onScaleChanged,
+      this.infiniteScroll = false,})
       : super(key: key);
 
   @override
@@ -47,13 +49,16 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
           ? const PageScrollPhysics()
           : const NeverScrollableScrollPhysics(),
       key: GlobalObjectKey(widget.easyImageProvider),
-      itemCount: widget.easyImageProvider.imageCount,
+      itemCount: widget.infiniteScroll
+          ? null
+          : widget.easyImageProvider.imageCount,
       controller: widget.pageController,
       scrollBehavior: MouseEnabledScrollBehavior(),
       itemBuilder: (context, index) {
+        final pageIndex = _getPageIndex(index);
         return EasyImageView.imageWidget(
-          widget.easyImageProvider.imageWidgetBuilder(context, index),
-          key: Key('easy_image_view_$index'),
+          widget.easyImageProvider.imageWidgetBuilder(context, pageIndex),
+          key: Key('easy_image_view_$pageIndex'),
           doubleTapZoomable: widget.doubleTapZoomable,
           onScaleChanged: (scale) {
             if (widget.onScaleChanged != null) {
@@ -67,5 +72,15 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
         );
       },
     );
+  }
+
+  // If the infiniteScroll true, the page number is calculated modulo the
+  // total number of images, effectively creating a looping carousel effect.
+  // Otherwise, the index is returned as is.
+  int _getPageIndex(int index) {
+    if (widget.infiniteScroll) {
+      return index % widget.easyImageProvider.imageCount;
+    }
+    return index;
   }
 }
