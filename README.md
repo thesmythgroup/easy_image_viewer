@@ -185,6 +185,27 @@ The default error widget shows a red `Icons.broken_image` and '🖼️💥🚫' 
 
 ![Default Error Widget](https://github.com/thesmythgroup/easy_image_viewer/blob/main/demo_images/default-error-widget.png?raw=true "Default Error Widget")
 
+
+## Using Infinite Scroll for Multiple Images
+
+You can use `infiniteScroll: true` to create a "looping" effect with the images. This means that when you reach the end of the image list, you will be taken back to the beginning. This can be useful if you have a small number of images and want to allow the user to scroll through them continuously.
+
+```dart
+MultiImageProvider multiImageProvider = MultiImageProvider([
+  const NetworkImage("https://picsum.photos/id/1001/4912/3264"),
+  const NetworkImage("https://picsum.photos/id/1003/1181/1772"),
+  const NetworkImage("https://picsum.photos/id/1004/4912/3264"),
+  const NetworkImage("https://picsum.photos/id/1005/4912/3264")
+]);
+
+showImageViewerPager(context, multiImageProvider, onPageChanged: (page) {
+  print("page changed to $page");
+}, onViewerDismissed: (page) {
+  print("dismissed while on page $page");
+}, infiniteScroll: true);
+```
+
+
 ## How to release a new version on pub.dev
 1. Update the version number in `pubspec.yaml`.
 2. Add an entry for the new version in `CHANGELOG.md`.
