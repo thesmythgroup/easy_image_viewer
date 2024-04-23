@@ -188,7 +188,7 @@ The default error widget shows a red `Icons.broken_image` and '🖼️💥🚫' 
 
 ## Using Infinite Scroll for Multiple Images
 
-You can use `infiniteScroll: true` to create a "looping" effect with the images. This means that when you reach the end of the image list, you will be taken back to the beginning. This can be useful if you have a small number of images and want to allow the user to scroll through them continuously.
+You can use `infinitelyScrollable: true` to create a "looping" effect with the images. This means that when you reach the end of the image list, you will be taken back to the beginning. This can be useful if you have a small number of images and want to allow the user to scroll through them continuously.
 
 ```dart
 MultiImageProvider multiImageProvider = MultiImageProvider([
@@ -202,7 +202,7 @@ showImageViewerPager(context, multiImageProvider, onPageChanged: (page) {
   print("page changed to $page");
 }, onViewerDismissed: (page) {
   print("dismissed while on page $page");
-}, infiniteScroll: true);
+}, infinitelyScrollable: true);
 ```
 
 

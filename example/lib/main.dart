@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -25,15 +25,15 @@ class MyHomePage extends StatefulWidget {
   final String title;
 
   const MyHomePage({
-    super.key,
+    Key? key,
     required this.title,
-  });
+  }) : super(key: key);
 
   @override
-  MyHomePageState createState() => MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
-class MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage> {
   final _pageController = PageController();
   static const _kDuration = Duration(milliseconds: 300);
   static const _kCurve = Curves.ease;
@@ -82,7 +82,7 @@ class MyHomePageState extends State<MyHomePage> {
                     MultiImageProvider(_imageProviders);
                 showImageViewerPager(context, multiImageProvider,
                     swipeDismissible: true, doubleTapZoomable: true,
-                    infiniteScroll: true);
+                    infinitelyScrollable: true);
               }),
           ElevatedButton(
               child: const Text("Show Multiple Images (Custom)"),

@@ -17,7 +17,7 @@ class EasyImageViewPager extends StatefulWidget {
   final EasyImageProvider easyImageProvider;
   final PageController pageController;
   final bool doubleTapZoomable;
-  final bool infiniteScroll;
+  final bool infinitelyScrollable;
 
   /// Callback for when the scale has changed, only invoked at the end of
   /// an interaction.
@@ -32,7 +32,7 @@ class EasyImageViewPager extends StatefulWidget {
       required this.pageController,
       this.doubleTapZoomable = false,
       this.onScaleChanged,
-      this.infiniteScroll = false,})
+      this.infinitelyScrollable = false,})
       : super(key: key);
 
   @override
@@ -49,7 +49,7 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
           ? const PageScrollPhysics()
           : const NeverScrollableScrollPhysics(),
       key: GlobalObjectKey(widget.easyImageProvider),
-      itemCount: widget.infiniteScroll
+      itemCount: widget.infinitelyScrollable
           ? null
           : widget.easyImageProvider.imageCount,
       controller: widget.pageController,
@@ -74,11 +74,11 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
     );
   }
 
-  // If the infiniteScroll true, the page number is calculated modulo the
+  // If the infinitelyScrollable true, the page number is calculated modulo the
   // total number of images, effectively creating a looping carousel effect.
   // Otherwise, the index is returned as is.
   int _getPageIndex(int index) {
-    if (widget.infiniteScroll) {
+    if (widget.infinitelyScrollable) {
       return index % widget.easyImageProvider.imageCount;
     }
     return index;

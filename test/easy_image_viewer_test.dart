@@ -153,7 +153,7 @@ void main() {
       }, onViewerDismissed: (page) {
         dismissed = true;
         pageOnDismissal = page;
-      }, infiniteScroll: true);
+      }, infinitelyScrollable: true);
       await tester.pumpAndSettle();
 
       // Create the Finders.
@@ -293,7 +293,7 @@ void main() {
       expect(pageOnDismissal, 2);
     });
 
-    testWidgets('should respect the initialIndex when infiniteScroll is true',
+    testWidgets('should respect the initialIndex when infinitelyScrollable is true',
         (WidgetTester tester) async {
       List<ImageProvider> imageProviders = List.empty(growable: true);
       final context = await createTestBuildContext(tester);
@@ -319,7 +319,7 @@ void main() {
           onViewerDismissed: (page) {
         dismissed = true;
         pageOnDismissal = page;
-      },infiniteScroll: true);
+      },infinitelyScrollable: true);
       await tester.pumpAndSettle();
 
       // Create the Finders.
