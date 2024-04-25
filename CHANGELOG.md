@@ -1,5 +1,8 @@
 # EasyImageViewer Changelog
 
+## 1.5.0
+- Add ability to infinitely swipe through a set of images by setting `infinitelyScrollable` to `true`. Thanks to [@furkankurt](https://github.com/furkankurt) for implementing this feature. See the README for an example.
+
 ## 1.4.1
 - Clearly declare Flutter 3.7.0 and Dart 2.19.0 as the minimum supported versions. Fixes a "const Column" error when used with Flutter versions lower than 3.10.0 (see [GH-52](https://github.com/thesmythgroup/easy_image_viewer/issues/52)).
 
