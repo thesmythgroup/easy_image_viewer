@@ -53,127 +53,160 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-          child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-              child: const Text("Show Single Image"),
-              onPressed: () {
-                showImageViewer(
-                    context,
-                    Image.network("https://picsum.photos/id/1001/4912/3264")
-                        .image,
-                    swipeDismissible: true,
-                    doubleTapZoomable: true);
-              }),
-          ElevatedButton(
-              child: const Text("Show Multiple Images (Simple)"),
-              onPressed: () {
-                MultiImageProvider multiImageProvider =
-                    MultiImageProvider(_imageProviders);
-                showImageViewerPager(context, multiImageProvider,
-                    swipeDismissible: true, doubleTapZoomable: true);
-              }),
-          ElevatedButton(
-              child: const Text("Show Multiple Images (Simple) with Infinite Scroll"),
-              onPressed: () {
-                MultiImageProvider multiImageProvider =
-                    MultiImageProvider(_imageProviders);
-                showImageViewerPager(context, multiImageProvider,
-                    swipeDismissible: true, doubleTapZoomable: true,
-                    infinitelyScrollable: true);
-              }),
-          ElevatedButton(
-              child: const Text("Show Multiple Images (Custom)"),
-              onPressed: () {
-                CustomImageProvider customImageProvider = CustomImageProvider(
-                    imageUrls: [
-                      "https://picsum.photos/id/1001/4912/3264",
-                      "https://picsum.photos/id/1003/1181/1772",
-                      "https://picsum.photos/id/1004/4912/3264",
-                      "https://picsum.photos/id/1005/4912/3264"
-                    ].toList(),
-                    initialIndex: 2);
-                showImageViewerPager(context, customImageProvider,
-                    onPageChanged: (page) {
-                  // print("Page changed to $page");
-                }, onViewerDismissed: (page) {
-                  // print("Dismissed while on page $page");
-                });
-              }),
-          ElevatedButton(
-              child: const Text("Async Demo (FutureBuilder)"),
-              onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const AsyncDemoPage()),
-                );
-              }),
-          ElevatedButton(
-              child: const Text("Custom Progress Indicator"),
-              onPressed: () {
-                CustomImageWidgetProvider customImageProvider = CustomImageWidgetProvider(
-                    imageUrls: [
-                      "https://picsum.photos/id/1001/4912/3264",
-                      "https://picsum.photos/id/1003/1181/1772",
-                      "https://picsum.photos/id/1004/4912/3264",
-                      "https://picsum.photos/id/1005/4912/3264"
-                    ].toList(),
-                );
-                showImageViewerPager(context, customImageProvider);
-              }),
-          ElevatedButton(
-              child: const Text("Simulate Error"),
-              onPressed: () {
-                showImageViewer(
-                    context,
-                    // Notice that this will cause an "unhandled exception" although an error handler is defined.
-                    // This is a known Flutter issue, see https://github.com/flutter/flutter/issues/81931
-                    Image.network("https://thisisdefinitelynotavalidurl.com")
-                        .image,
-                    swipeDismissible: true,
-                    doubleTapZoomable: true);
-              }),
-          SizedBox( // Tiny image just to test the EasyImageView constructor
-            width: MediaQuery.of(context).size.width,
-            height: 56,
-            child: EasyImageView(
-                imageProvider: Image.network("https://picsum.photos/id/1001/4912/3264").image)
-          ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height / 2.4,
-            child: EasyImageViewPager(
-                easyImageProvider: _easyEmbeddedImageProvider,
-                pageController: _pageController),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ElevatedButton(
-                  child: const Text("<< Prev"),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  child: const Text("Show Single Image"),
                   onPressed: () {
-                    final currentPage = _pageController.page?.toInt() ?? 0;
-                    _pageController.animateToPage(
-                        currentPage > 0 ? currentPage - 1 : 0,
-                        duration: _kDuration,
-                        curve: _kCurve);
-                  }),
-              ElevatedButton(
-                  child: const Text("Next >>"),
+                    showImageViewer(
+                      context,
+                      Image.network("https://picsum.photos/id/1001/4912/3264").image,
+                      useSafeArea: true,
+                      swipeDismissible: true,
+                      doubleTapZoomable: true,
+                    );
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text("Show Multiple Images (Simple)"),
                   onPressed: () {
-                    final currentPage = _pageController.page?.toInt() ?? 0;
-                    final lastPage = _easyEmbeddedImageProvider.imageCount - 1;
-                    _pageController.animateToPage(
-                        currentPage < lastPage ? currentPage + 1 : lastPage,
-                        duration: _kDuration,
-                        curve: _kCurve);
-                  }),
-            ],
+                    MultiImageProvider multiImageProvider =
+                        MultiImageProvider(_imageProviders);
+                    showImageViewerPager(
+                      context,
+                      multiImageProvider,
+                      swipeDismissible: true,
+                      doubleTapZoomable: true,
+                    );
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text("Show Multiple Images (Simple) with Infinite Scroll"),
+                  onPressed: () {
+                    MultiImageProvider multiImageProvider =
+                        MultiImageProvider(_imageProviders);
+                    showImageViewerPager(
+                      context,
+                      multiImageProvider,
+                      swipeDismissible: true,
+                      doubleTapZoomable: true,
+                      infinitelyScrollable: true,
+                    );
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text("Show Multiple Images (Custom)"),
+                  onPressed: () {
+                    CustomImageProvider customImageProvider = CustomImageProvider(
+                      imageUrls: [
+                        "https://picsum.photos/id/1001/4912/3264",
+                        "https://picsum.photos/id/1003/1181/1772",
+                        "https://picsum.photos/id/1004/4912/3264",
+                        "https://picsum.photos/id/1005/4912/3264",
+                      ].toList(),
+                      initialIndex: 2,
+                    );
+                    showImageViewerPager(
+                      context,
+                      customImageProvider,
+                      onPageChanged: (page) {
+                        // print("Page changed to $page");
+                      },
+                      onViewerDismissed: (page) {
+                        // print("Dismissed while on page $page");
+                      },
+                    );
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text("Async Demo (FutureBuilder)"),
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => const AsyncDemoPage()),
+                    );
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text("Custom Progress Indicator"),
+                  onPressed: () {
+                    CustomImageWidgetProvider customImageProvider = CustomImageWidgetProvider(
+                      imageUrls: [
+                        "https://picsum.photos/id/1001/4912/3264",
+                        "https://picsum.photos/id/1003/1181/1772",
+                        "https://picsum.photos/id/1004/4912/3264",
+                        "https://picsum.photos/id/1005/4912/3264",
+                      ].toList(),
+                    );
+                    showImageViewerPager(context, customImageProvider);
+                  },
+                ),
+                ElevatedButton(
+                  child: const Text("Simulate Error"),
+                  onPressed: () {
+                    showImageViewer(
+                      context,
+                      // Notice that this will cause an "unhandled exception" although an error handler is defined.
+                      // This is a known Flutter issue, see https://github.com/flutter/flutter/issues/81931
+                      Image.network("https://thisisdefinitelynotavalidurl.com").image,
+                      swipeDismissible: true,
+                      doubleTapZoomable: true,
+                    );
+                  },
+                ),
+                SizedBox(
+                  // Tiny image just to test the EasyImageView constructor
+                  width: MediaQuery.of(context).size.width,
+                  height: 56,
+                  child: EasyImageView(
+                    imageProvider: Image.network("https://picsum.photos/id/1001/4912/3264").image,
+                  ),
+                ),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height / 2.4,
+                  child: EasyImageViewPager(
+                    easyImageProvider: _easyEmbeddedImageProvider,
+                    pageController: _pageController,
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      child: const Text("<< Prev"),
+                      onPressed: () {
+                        final currentPage = _pageController.page?.toInt() ?? 0;
+                        _pageController.animateToPage(
+                          currentPage > 0 ? currentPage - 1 : 0,
+                          duration: _kDuration,
+                          curve: _kCurve,
+                        );
+                      },
+                    ),
+                    ElevatedButton(
+                      child: const Text("Next >>"),
+                      onPressed: () {
+                        final currentPage = _pageController.page?.toInt() ?? 0;
+                        final lastPage = _easyEmbeddedImageProvider.imageCount - 1;
+                        _pageController.animateToPage(
+                          currentPage < lastPage ? currentPage + 1 : lastPage,
+                          duration: _kDuration,
+                          curve: _kCurve,
+                        );
+                      },
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ],
-      )),
+        ),
+      )
     );
   }
 }

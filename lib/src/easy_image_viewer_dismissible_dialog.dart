@@ -13,7 +13,6 @@ class EasyImageViewerDismissibleDialog extends StatefulWidget {
   final bool immersive;
   final void Function(int)? onPageChanged;
   final void Function(int)? onViewerDismissed;
-  final bool useSafeArea;
   final bool swipeDismissible;
   final bool doubleTapZoomable;
   final Color backgroundColor;
@@ -27,7 +26,6 @@ class EasyImageViewerDismissibleDialog extends StatefulWidget {
       this.immersive = true,
       this.onPageChanged,
       this.onViewerDismissed,
-      this.useSafeArea = false,
       this.swipeDismissible = false,
       this.doubleTapZoomable = false,
       this.infinitelyScrollable = false,
