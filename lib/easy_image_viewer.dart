@@ -28,6 +28,7 @@ const _defaultCloseButtonTooltip = 'Close';
 /// The optional [swipeDismissible] boolean defaults to false and allows swipe-down-to-dismiss.
 /// The optional [doubleTapZoomable] boolean defaults to false and allows double tap to zoom.
 /// The [backgroundColor] defaults to black, but can be set to any other color.
+/// The optional [barrierColor] (in connection with [useSafeArea]) defaults to the [backgroundColor], but can be set to any other color.
 /// The [closeButtonTooltip] text is displayed when the user long-presses on the
 /// close button and is used for accessibility.
 /// The [closeButtonColor] defaults to white, but can be set to any other color.
@@ -39,6 +40,7 @@ Future<Dialog?> showImageViewer(
     bool swipeDismissible = false,
     bool doubleTapZoomable = false,
     Color backgroundColor = _defaultBackgroundColor,
+    Color? barrierColor,
     String closeButtonTooltip = _defaultCloseButtonTooltip,
     Color closeButtonColor = _defaultCloseButtonColor}) {
   return showImageViewerPager(context, SingleImageProvider(imageProvider),
@@ -49,6 +51,7 @@ Future<Dialog?> showImageViewer(
       swipeDismissible: swipeDismissible,
       doubleTapZoomable: doubleTapZoomable,
       backgroundColor: backgroundColor,
+      barrierColor: barrierColor,
       closeButtonTooltip: closeButtonTooltip,
       closeButtonColor: closeButtonColor);
 }
@@ -64,6 +67,7 @@ Future<Dialog?> showImageViewer(
 /// The optional [doubleTapZoomable] boolean defaults to false and allows double tap to zoom.
 /// The optional [infinitelyScrollable] boolean defaults to false and allows infinite scrolling.
 /// The [backgroundColor] defaults to black, but can be set to any other color.
+/// The optional [barrierColor] (in connection with [useSafeArea]) defaults to the [backgroundColor], but can be set to any other color.
 /// The [closeButtonTooltip] text is displayed when the user long-presses on the
 /// close button and is used for accessibility.
 /// The [closeButtonColor] defaults to white, but can be set to any other color.
@@ -77,6 +81,7 @@ Future<Dialog?> showImageViewerPager(
     bool doubleTapZoomable = false,
     bool infinitelyScrollable = false,
     Color backgroundColor = _defaultBackgroundColor,
+    Color? barrierColor,
     String closeButtonTooltip = _defaultCloseButtonTooltip,
     Color closeButtonColor = _defaultCloseButtonColor}) {
   if (immersive) {
@@ -87,12 +92,12 @@ Future<Dialog?> showImageViewerPager(
   return showDialog<Dialog>(
       context: context,
       useSafeArea: useSafeArea,
+      barrierColor: barrierColor ?? backgroundColor,
       builder: (context) {
         return EasyImageViewerDismissibleDialog(imageProvider,
             immersive: immersive,
             onPageChanged: onPageChanged,
             onViewerDismissed: onViewerDismissed,
-            useSafeArea: useSafeArea,
             swipeDismissible: swipeDismissible,
             doubleTapZoomable: doubleTapZoomable,
             infinitelyScrollable: infinitelyScrollable,
