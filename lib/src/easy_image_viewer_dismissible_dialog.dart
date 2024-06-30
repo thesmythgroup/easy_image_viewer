@@ -106,6 +106,9 @@ class _EasyImageViewerDismissibleDialogState
                       easyImageProvider: widget.imageProvider,
                       pageController: _pageController,
                       doubleTapZoomable: widget.doubleTapZoomable,
+                      doubleTapZoomScale: widget.doubleTapZoomScale,
+                      minScale: widget.minScale,
+                      maxScale: widget.maxScale,
                       infinitelyScrollable: widget.infinitelyScrollable,
                       onScaleChanged: (scale) {
                         setState(() {
