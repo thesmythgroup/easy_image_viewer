@@ -56,6 +56,7 @@ Future<Dialog?> showImageViewer(
       useSafeArea: useSafeArea,
       swipeDismissible: swipeDismissible,
       doubleTapZoomable: doubleTapZoomable,
+      doubleTapZoomScale: doubleTapZoomScale,
       backgroundColor: backgroundColor,
       barrierColor: barrierColor,
       closeButtonTooltip: closeButtonTooltip,

@@ -50,7 +50,7 @@ class EasyImageView extends StatefulWidget {
     this.doubleTapZoomable = false,
     this.doubleTapZoomScale = 2.0,
     this.onScaleChanged,
-  }) : super(key: key);
+  }) : assert(doubleTapZoomScale > 1.0), super(key: key);
 
   @override
   State<EasyImageView> createState() => _EasyImageViewState();
@@ -64,6 +64,7 @@ class _EasyImageViewState extends State<EasyImageView>
   TapDownDetails _doubleTapDetails = TapDownDetails();
   late AnimationController _animationController;
   Animation<Matrix4>? _doubleTapAnimation;
+  Size? _viewport;
 
   @override
   void initState() {
@@ -71,6 +72,12 @@ class _EasyImageViewState extends State<EasyImageView>
         duration: const Duration(milliseconds: 200), vsync: this);
 
     super.initState();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _viewport = MediaQuery.of(context).size;
   }
 
   @override
@@ -86,7 +93,8 @@ class _EasyImageViewState extends State<EasyImageView>
               ? GestureDetector(
                   onDoubleTapDown: _handleDoubleTapDown,
                   onDoubleTap: _handleDoubleTap,
-                  child: widget.imageWidget)
+                  child: widget.imageWidget,
+                )
               : widget.imageWidget,
           onInteractionEnd: (scaleEndDetails) {
             double scale = _transformationController.value.getMaxScaleOnAxis();
@@ -103,33 +111,41 @@ class _EasyImageViewState extends State<EasyImageView>
   }
 
   void _handleDoubleTap() {
+    final viewport = _viewport;
+    if (viewport == null) {
+      return;
+    }
+
     _doubleTapAnimation?.removeListener(_animationListener);
     _doubleTapAnimation?.removeStatusListener(_animationStatusListener);
 
-    double scale = _transformationController.value.getMaxScaleOnAxis();
+    final scaleCur = _transformationController.value.getMaxScaleOnAxis();
+    final scaleDest = widget.doubleTapZoomScale;
+    if (scaleCur < scaleDest) {
+      // we are not at a doubleTapZoomScale yet, zoom in all the way to it.
+      final tap = _doubleTapDetails.localPosition;
+      // center viewport where user tapped
+      final dx = tap.dx * scaleDest - (viewport.width / 2.0);
+      final dy = tap.dy * scaleDest - (viewport.height / 2.0);
+      // ensure we don't go out of bound.
+      // Furthest point we can translate to is one viewpoint less.
+      final cdx = dx.clamp(0.0, viewport.width * (scaleDest - 1));
+      final cdy = dy.clamp(0.0, viewport.height * (scaleDest - 1));
 
-    if (scale < widget.doubleTapZoomScale) {
-      // If we are not at a doubleTapZoomScale yet, zoom in all the way to it.
-      final position = _doubleTapDetails.localPosition;
       final begin = _transformationController.value;
       final end = Matrix4.identity()
-        ..scale(widget.doubleTapZoomScale)
-        ..translate(
-          position.dx/widget.doubleTapZoomScale - position.dx,
-          position.dy/widget.doubleTapZoomScale - position.dy,
-        )
-      ;
+        ..translate(-cdx, -cdy)
+        ..scale(scaleDest);
 
       _updateDoubleTapAnimation(begin, end);
       _animationController.forward(from: 0.0);
     } else {
-      // If we are zoomed in at doubleTapZoomScale or more, zoom all the way out
+      // we are zoomed in at doubleTapZoomScale or more, zoom all the way out
       final begin = Matrix4.identity();
       final end = _transformationController.value;
 
       _updateDoubleTapAnimation(begin, end);
-
-      _animationController.reverse(from: scale - 1.0);
+      _animationController.reverse(from: 1.0);
     }
   }
 
