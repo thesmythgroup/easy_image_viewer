@@ -15,6 +15,9 @@ class EasyImageViewerDismissibleDialog extends StatefulWidget {
   final void Function(int)? onViewerDismissed;
   final bool swipeDismissible;
   final bool doubleTapZoomable;
+  final double doubleTapZoomScale;
+  final double minScale;
+  final double maxScale;
   final Color backgroundColor;
   final String closeButtonTooltip;
   final Color closeButtonColor;
@@ -28,6 +31,9 @@ class EasyImageViewerDismissibleDialog extends StatefulWidget {
       this.onViewerDismissed,
       this.swipeDismissible = false,
       this.doubleTapZoomable = false,
+      this.doubleTapZoomScale = 2,
+      this.minScale = 1,
+      this.maxScale = 5,
       this.infinitelyScrollable = false,
       required this.backgroundColor,
       required this.closeButtonTooltip,

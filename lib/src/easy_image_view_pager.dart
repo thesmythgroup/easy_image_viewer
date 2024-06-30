@@ -17,6 +17,9 @@ class EasyImageViewPager extends StatefulWidget {
   final EasyImageProvider easyImageProvider;
   final PageController pageController;
   final bool doubleTapZoomable;
+  final double doubleTapZoomScale;
+  final double minScale;
+  final double maxScale;
   final bool infinitelyScrollable;
 
   /// Callback for when the scale has changed, only invoked at the end of
@@ -26,11 +29,17 @@ class EasyImageViewPager extends StatefulWidget {
   /// Create new instance, using the [easyImageProvider] to populate the [PageView],
   /// and the [pageController] to control the initial image index to display.
   /// The optional [doubleTapZoomable] boolean defaults to false and allows double tap to zoom.
+  /// The optional [doubleTapZoomScale] defines how much to zoom on double tap.
+  /// The optional [minScale] defines how much user can manually zoom out.
+  /// The optional [maxScale] defines how much user can manually zoom in.
   const EasyImageViewPager({
     Key? key,
     required this.easyImageProvider,
     required this.pageController,
     this.doubleTapZoomable = false,
+    this.doubleTapZoomScale = 2,
+    this.minScale = 1,
+    this.maxScale = 5,
     this.onScaleChanged,
     this.infinitelyScrollable = false,
   }) : super(key: key);
@@ -60,6 +69,9 @@ class _EasyImageViewPagerState extends State<EasyImageViewPager> {
           widget.easyImageProvider.imageWidgetBuilder(context, pageIndex),
           key: Key('easy_image_view_$pageIndex'),
           doubleTapZoomable: widget.doubleTapZoomable,
+          doubleTapZoomScale: widget.doubleTapZoomScale,
+          minScale: widget.minScale,
+          maxScale: widget.maxScale,
           onScaleChanged: (scale) {
             if (widget.onScaleChanged != null) {
               widget.onScaleChanged!(scale);

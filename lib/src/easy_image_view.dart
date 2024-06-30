@@ -14,6 +14,9 @@ class EasyImageView extends StatefulWidget {
   /// Whether to allow double tap to zoom in and out
   final bool doubleTapZoomable;
 
+  /// How much to zoom during double tap zoom in
+  final double doubleTapZoomScale;
+
   /// Callback for when the scale has changed, only invoked at the end of
   /// an interaction.
   final void Function(double)? onScaleChanged;
@@ -25,6 +28,7 @@ class EasyImageView extends StatefulWidget {
     double minScale = 1.0,
     double maxScale = 5.0,
     bool doubleTapZoomable = false,
+    double doubleTapZoomScale = 2.0,
     void Function(double)? onScaleChanged,
   }) : this.imageWidget(
           Image(image: imageProvider),
@@ -32,6 +36,7 @@ class EasyImageView extends StatefulWidget {
           minScale: minScale,
           maxScale: maxScale,
           doubleTapZoomable: doubleTapZoomable,
+          doubleTapZoomScale: doubleTapZoomScale,
           onScaleChanged: onScaleChanged,
         );
 
@@ -43,6 +48,7 @@ class EasyImageView extends StatefulWidget {
     this.minScale = 1.0,
     this.maxScale = 5.0,
     this.doubleTapZoomable = false,
+    this.doubleTapZoomScale = 2.0,
     this.onScaleChanged,
   }) : super(key: key);
 
@@ -102,18 +108,18 @@ class _EasyImageViewState extends State<EasyImageView>
 
     double scale = _transformationController.value.getMaxScaleOnAxis();
 
-    if (scale < 2.0) {
-      // If we are not at a 2x scale yet, zoom in all the way to 2x.
+    if (scale < widget.doubleTapZoomScale) {
+      // If we are not at a doubleTapZoomScale yet, zoom in all the way to it.
       final position = _doubleTapDetails.localPosition;
       final begin = _transformationController.value;
       final end = Matrix4.identity()
         ..translate(-position.dx, -position.dy)
-        ..scale(2.0);
+        ..scale(widget.doubleTapZoomScale);
 
       _updateDoubleTapAnimation(begin, end);
       _animationController.forward(from: 0.0);
     } else {
-      // If we are zoomed in at 2x or more, zoom all the way out
+      // If we are zoomed in at doubleTapZoomScale or more, zoom all the way out
       final begin = Matrix4.identity();
       final end = _transformationController.value;
 

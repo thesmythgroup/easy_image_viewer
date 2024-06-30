@@ -27,6 +27,9 @@ const _defaultCloseButtonTooltip = 'Close';
 /// The optional [useSafeArea] boolean defaults to false and is passed to [showDialog].
 /// The optional [swipeDismissible] boolean defaults to false and allows swipe-down-to-dismiss.
 /// The optional [doubleTapZoomable] boolean defaults to false and allows double tap to zoom.
+/// The optional [doubleTapZoomScale] defines how much to zoom on double tap.
+/// The optional [minScale] defines how much user can manually zoom out.
+/// The optional [maxScale] defines how much user can manually zoom in.
 /// The [backgroundColor] defaults to black, but can be set to any other color.
 /// The optional [barrierColor] (in connection with [useSafeArea]) defaults to the [backgroundColor], but can be set to any other color.
 /// The [closeButtonTooltip] text is displayed when the user long-presses on the
@@ -39,6 +42,9 @@ Future<Dialog?> showImageViewer(
     bool useSafeArea = false,
     bool swipeDismissible = false,
     bool doubleTapZoomable = false,
+    double doubleTapZoomScale = 2,
+    double minScale = 1,
+    double maxScale = 5,
     Color backgroundColor = _defaultBackgroundColor,
     Color? barrierColor,
     String closeButtonTooltip = _defaultCloseButtonTooltip,
@@ -79,6 +85,9 @@ Future<Dialog?> showImageViewerPager(
     bool useSafeArea = false,
     bool swipeDismissible = false,
     bool doubleTapZoomable = false,
+    double doubleTapZoomScale = 2,
+    double minScale = 1,
+    double maxScale = 5,
     bool infinitelyScrollable = false,
     Color backgroundColor = _defaultBackgroundColor,
     Color? barrierColor,
@@ -100,6 +109,9 @@ Future<Dialog?> showImageViewerPager(
             onViewerDismissed: onViewerDismissed,
             swipeDismissible: swipeDismissible,
             doubleTapZoomable: doubleTapZoomable,
+            doubleTapZoomScale: doubleTapZoomScale,
+            minScale: minScale,
+            maxScale: maxScale,
             infinitelyScrollable: infinitelyScrollable,
             backgroundColor: backgroundColor,
             closeButtonColor: closeButtonColor,
