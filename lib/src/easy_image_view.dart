@@ -113,8 +113,12 @@ class _EasyImageViewState extends State<EasyImageView>
       final position = _doubleTapDetails.localPosition;
       final begin = _transformationController.value;
       final end = Matrix4.identity()
-        ..translate(-position.dx, -position.dy)
-        ..scale(widget.doubleTapZoomScale);
+        ..scale(widget.doubleTapZoomScale)
+        ..translate(
+          position.dx/widget.doubleTapZoomScale - position.dx,
+          position.dy/widget.doubleTapZoomScale - position.dy,
+        )
+      ;
 
       _updateDoubleTapAnimation(begin, end);
       _animationController.forward(from: 0.0);
