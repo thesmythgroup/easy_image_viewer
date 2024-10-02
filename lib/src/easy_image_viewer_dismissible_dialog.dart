@@ -22,7 +22,7 @@ class EasyImageViewerDismissibleDialog extends StatefulWidget {
 
   /// Refer to [showImageViewerPager] for the arguments
   const EasyImageViewerDismissibleDialog(this.imageProvider,
-      {Key? key,
+      {super.key,
       this.immersive = true,
       this.onPageChanged,
       this.onViewerDismissed,
@@ -31,8 +31,7 @@ class EasyImageViewerDismissibleDialog extends StatefulWidget {
       this.infinitelyScrollable = false,
       required this.backgroundColor,
       required this.closeButtonTooltip,
-      required this.closeButtonColor})
-      : super(key: key);
+      required this.closeButtonColor});
 
   @override
   State<EasyImageViewerDismissibleDialog> createState() =>
