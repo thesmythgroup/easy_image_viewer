@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 
 /// Simple example of how to use EasyImageViewer with a FutureBuilder
 class AsyncDemoPage extends StatefulWidget {
-  const AsyncDemoPage({Key? key}) : super(key: key);
+  const AsyncDemoPage({super.key});
 
   @override
-  _AsyncDemoPageState createState() => _AsyncDemoPageState();
+  State<AsyncDemoPage> createState() => _AsyncDemoPageState();
 }
 
 class _AsyncDemoPageState extends State<AsyncDemoPage> {
