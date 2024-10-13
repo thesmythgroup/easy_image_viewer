@@ -44,13 +44,13 @@ class EasyImageView extends StatefulWidget {
   /// The optional [doubleTapZoomable] boolean defaults to false and allows double tap to zoom.
   const EasyImageView.imageWidget(
     this.imageWidget, {
-    Key? key,
+    super.key,
     this.minScale = 1.0,
     this.maxScale = 5.0,
     this.doubleTapZoomable = false,
     this.doubleTapZoomScale = 2.0,
     this.onScaleChanged,
-  }) : assert(doubleTapZoomScale > 1.0), super(key: key);
+  }) : assert(doubleTapZoomScale > 1.0);
 
   @override
   State<EasyImageView> createState() => _EasyImageViewState();

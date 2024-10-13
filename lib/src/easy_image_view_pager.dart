@@ -33,7 +33,7 @@ class EasyImageViewPager extends StatefulWidget {
   /// The optional [minScale] defines how much user can manually zoom out.
   /// The optional [maxScale] defines how much user can manually zoom in.
   const EasyImageViewPager({
-    Key? key,
+    super.key,
     required this.easyImageProvider,
     required this.pageController,
     this.doubleTapZoomable = false,
@@ -42,7 +42,7 @@ class EasyImageViewPager extends StatefulWidget {
     this.maxScale = 5,
     this.onScaleChanged,
     this.infinitelyScrollable = false,
-  }) : super(key: key);
+  });
 
   @override
   State<EasyImageViewPager> createState() => _EasyImageViewPagerState();
